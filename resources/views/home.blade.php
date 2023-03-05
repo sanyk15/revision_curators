@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Меню
+                        <h3>Меню</h3>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -25,6 +25,15 @@
                             >
                                 <i class="bi-people"></i>
                                 Группы
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a
+                                class="btn btn-primary btn-block col-12"
+                                href="{{ route('activity_kinds.index') }}"
+                            >
+                                <i class="bi-activity"></i>
+                                Виды деятельности
                             </a>
                         </li>
                     </ul>

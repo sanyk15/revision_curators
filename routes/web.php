@@ -20,4 +20,5 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::middleware('auth')->group(function () {
     Route::resource('curators', \App\Http\Controllers\CuratorController::class);
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
+    Route::resource('activity_kinds', \App\Http\Controllers\ActivityKindController::class);
 });

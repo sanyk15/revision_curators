@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Группа.
+ * Вид деятельности.
  *
  * @property integer $id
  * @property string $title
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  */
-class Group extends Model
+class ActivityKind extends Model
 {
     use SoftDeletes;
 
