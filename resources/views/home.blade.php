@@ -36,6 +36,15 @@
                                 Виды деятельности
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a
+                                class="btn btn-primary btn-block col-12"
+                                href="{{ route('indicators.index') }}"
+                            >
+                                <i class="bi bi-bar-chart"></i>
+                                Показатели
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -8,10 +8,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Редактирование вида деятельности</h3>
+                                <h3>Создание показателя</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activity_kinds.index') }}">
+                                <a class="btn btn-primary" href="{{ route('indicators.index') }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -20,9 +20,8 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('activity_kinds.update', $activityKind->id) }}">
+                        <form method="POST" action="{{ route('indicators.store') }}">
                             @csrf
-                            @method('PUT')
 
                             <div class="row mb-3">
                                 <label for="title" class="col-md-4 col-form-label text-md-end">Название</label>
@@ -34,13 +33,33 @@
                                         class="form-control
                                         @error('title') is-invalid @enderror"
                                         name="title"
-                                        value="{{ old('title') ?? $activityKind->title }}"
+                                        value="{{ old('title') }}"
                                         required
                                         autocomplete="title"
                                         autofocus
                                     >
 
                                     @error('title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="description" class="col-md-4 col-form-label text-md-end">Описание</label>
+
+                                <div class="col-md-6">
+                                    <textarea
+                                        id="description"
+                                        class="form-control
+                                        @error('description') is-invalid @enderror"
+                                        name="description"
+                                        autocomplete="description"
+                                    >{{ old('description') }}</textarea>
+
+                                    @error('description')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
