@@ -58,7 +58,10 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {!! $curators->links() !!}
+                        @include(
+                            'vendor.pagination.default',
+                            $curators->links()->getData()
+                        )
                     </div>
                 </div>
             </div>

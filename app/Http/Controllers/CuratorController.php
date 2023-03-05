@@ -10,7 +10,7 @@ class CuratorController extends Controller
 {
     public function index(Request $request)
     {
-        $curators = Curator::filter($request->all())->paginate(15);
+        $curators = Curator::filter($request->all())->paginate(8);
 
         return view('curators.index', compact('curators'));
     }

@@ -24,6 +24,7 @@
                                         value="{{ old('last_name') }}"
                                         required
                                         autocomplete="last_name"
+                                        autofocus
                                     >
 
                                     @error('last_name')
@@ -47,7 +48,6 @@
                                         value="{{ old('first_name') }}"
                                         required
                                         autocomplete="first_name"
-                                        autofocus
                                     >
 
                                     @error('first_name')
