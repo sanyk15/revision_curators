@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Деятельность кураторов</div>
+                <div class="card-header">Меню</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,13 @@
                         </div>
                     @endif
 
-                    Вы вошли!
+                    <a
+                        class="btn btn-primary"
+                        href="{{ route('curators.index') }}"
+                    >
+                        <i class="bi-person-square"></i>
+                        Кураторы
+                    </a>
                 </div>
             </div>
         </div>
