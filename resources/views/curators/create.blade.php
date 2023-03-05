@@ -5,7 +5,19 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Создание куратора</div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>Создание куратора</h3>
+                            </div>
+                            <div class="col-auto">
+                                <a class="btn btn-primary" href="{{ route('curators.index') }}">
+                                    <i class="bi-arrow-left"></i>
+                                    Назад
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('curators.store') }}">

@@ -49,7 +49,7 @@ class CuratorController extends Controller
         return redirect()->route('curators.index');
     }
 
-    public function destroy(Curator $curator)
+    public function destroy(Curator $curator): RedirectResponse
     {
         $curator->delete();
 
