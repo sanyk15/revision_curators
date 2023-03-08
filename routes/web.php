@@ -22,4 +22,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
     Route::resource('activity_kinds', \App\Http\Controllers\ActivityKindController::class);
     Route::resource('indicators', \App\Http\Controllers\IndicatorController::class);
+    Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class);
 });

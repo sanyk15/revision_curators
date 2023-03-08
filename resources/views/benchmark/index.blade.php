@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Виды деятельности
+    Критерии
 @endsection
 
 @section('content')
@@ -12,11 +12,11 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                Виды деятельности
+                                Критерии
                             </span>
                             <div class="float-right">
                                 <a
-                                    href="{{ route('activity_kinds.create') }}"
+                                    href="{{ route('benchmarks.create') }}"
                                     class="btn btn-primary btn-sm float-right"
                                     data-placement="left"
                                 >
@@ -38,18 +38,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($activityKinds as $activityKind)
+                                @foreach ($benchmarks as $benchmark)
                                     <tr>
-                                        <td>{{ $activityKind->id }}</td>
-                                        <td>{{ $activityKind->title }}</td>
+                                        <td>{{ $benchmark->id }}</td>
+                                        <td>{{ $benchmark->title }}</td>
                                         <td>
                                             <form
-                                                action="{{ route('activity_kinds.destroy',$activityKind->id) }}"
+                                                action="{{ route('benchmarks.destroy',$benchmark->id) }}"
                                                 method="POST"
                                             >
                                                 <a
                                                     class="btn btn-sm btn-success"
-                                                    href="{{ route('activity_kinds.edit',$activityKind->id) }}"
+                                                    href="{{ route('benchmarks.edit',$benchmark->id) }}"
                                                 >
                                                     <i class="bi-pencil"></i>
                                                 </a>
@@ -68,7 +68,7 @@
                     </div>
                     @include(
                         'vendor.pagination.default',
-                        $activityKinds->links()->getData()
+                        $benchmarks->links()->getData()
                     )
                 </div>
             </div>
