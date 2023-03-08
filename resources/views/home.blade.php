@@ -54,6 +54,15 @@
                                 Показатели
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a
+                                class="btn btn-primary btn-block col-12"
+                                href="{{ route('additional_events.index') }}"
+                            >
+                                <i class="bi bi-calendar-event"></i>
+                                Дополнительные мероприятия
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
