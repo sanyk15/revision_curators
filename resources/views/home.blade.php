@@ -72,6 +72,15 @@
                                 Деятельность кураторов
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a
+                                class="btn btn-primary btn-block col-12"
+                                href="{{ route('reports.main') }}"
+                            >
+                                <i class="bi bi-file-earmark-excel"></i>
+                                Отчеты
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

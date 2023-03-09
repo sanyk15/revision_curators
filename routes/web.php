@@ -25,4 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class);
     Route::resource('additional_events', \App\Http\Controllers\AdditionalEventController::class);
     Route::resource('activities', \App\Http\Controllers\ActivityController::class);
+
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
+        Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');
+    });
 });
