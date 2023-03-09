@@ -63,6 +63,15 @@
                                 Дополнительные мероприятия
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a
+                                class="btn btn-primary btn-block col-12"
+                                href="{{ route('activities.index') }}"
+                            >
+                                <i class="bi bi-list-stars"></i>
+                                Деятельность кураторов
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

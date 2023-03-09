@@ -45,7 +45,7 @@ class Curator extends Model
     public function getSurnameAndInitialsAttribute(): string
     {
         $fullName = $this->last_name . ' ' . mb_substr($this->first_name, 0, 1);
-        $fullName .= $this->surname ? ' ' . mb_substr($this->surname, 0, 1) : '';
+        $fullName .= $this->surname ? '. ' . mb_substr($this->surname, 0, 1) . '.' : '';
 
         return $fullName;
     }

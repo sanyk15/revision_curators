@@ -24,4 +24,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('indicators', \App\Http\Controllers\IndicatorController::class);
     Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class);
     Route::resource('additional_events', \App\Http\Controllers\AdditionalEventController::class);
+    Route::resource('activities', \App\Http\Controllers\ActivityController::class);
 });
