@@ -54,16 +54,25 @@
                 <tr>
                     @if ($kindPrinted == 0)
                         @php($kindPrinted = data_get($activitiesForKind, 'rowspan'))
-                        <th rowspan="{{ data_get($activitiesForKind, 'rowspan') }}" style="text-align: center; vertical-align: middle;">
+                        <th
+                            rowspan="{{ data_get($activitiesForKind, 'rowspan') }}"
+                            style="text-align: center; vertical-align: middle;"
+                        >
                             <b>{{ data_get($activitiesForKind, 'number') }}</b>
                         </th>
-                        <th rowspan="{{ data_get($activitiesForKind, 'rowspan') }}" style="text-align: center; vertical-align: middle;">
+                        <th
+                            rowspan="{{ data_get($activitiesForKind, 'rowspan') }}"
+                            style="text-align: center; vertical-align: middle;"
+                        >
                             <b>{{ data_get($activitiesForKind, 'name') }}</b>
                         </th>
                     @endif
                     @if ($benchmarkPrinted == 0)
                         @php($benchmarkPrinted = data_get($activitiesForBenchmark, 'rowspan'))
-                        <th rowspan="{{ data_get($activitiesForBenchmark, 'rowspan') }}" style="text-align: center; vertical-align: middle;">
+                        <th
+                            rowspan="{{ data_get($activitiesForBenchmark, 'rowspan') }}"
+                            style="text-align: center; vertical-align: middle;"
+                        >
                             {{ data_get($activitiesForBenchmark, 'name') }}
                         </th>
                     @endif
@@ -83,11 +92,12 @@
     @endforeach
     <tr></tr>
     <tr>
-        <th colspan="5" style="text-align: center"><b><i>Дополнительные мероприятия факультета, кафедры, вуза</i></b></th>
+        <th colspan="5" style="text-align: center"><b><i>Дополнительные мероприятия факультета, кафедры, вуза</i></b>
+        </th>
     </tr>
     @foreach($additional_events as $key => $additionalEvent)
         <tr>
-            <th style="text-align: center; vertical-align: middle;"><b>{{ $key++ }}</b></th>
+            <th style="text-align: center; vertical-align: middle;"><b>{{ $key+1 }}</b></th>
             <th colspan="10" style="vertical-align: middle;"><b>{{ data_get($additionalEvent, 'title') }}</b></th>
         </tr>
     @endforeach

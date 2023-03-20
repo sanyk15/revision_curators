@@ -9,11 +9,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CuratorActivitiesReport implements FromView, ShouldAutoSize
+class CuratorActivitiesReport implements FromView, WithStyles, ShouldAutoSize, WithColumnWidths
 {
     private $activities;
     private $date;
+    private $rows;
 
     public function __construct(Collection $activities, Carbon $date)
     {
@@ -87,14 +91,40 @@ class CuratorActivitiesReport implements FromView, ShouldAutoSize
             ]);
         })->values();
 
+        $this->rows = $activities->sum('rowspan');
+
         return view('reports.curators_report', [
             'activities'           => $activities,
             'date'                 => $this->date,
             'curators_with_groups' => $curatorsWithGroups,
-            'additional_events' => AdditionalEvent::query()
+            'additional_events'    => AdditionalEvent::query()
                 ->whereBetween('date', [$this->date->copy()->startOfMonth(), $this->date->copy()->endOfMonth()])
                 ->orderBy('title')
                 ->get(),
         ]);
+    }
+
+    public function styles(Worksheet $sheet): array
+    {
+        $styles = [];
+
+        for ($i = 1; $i <= 6 + $this->rows; $i++) {
+            $styles[$i] = ['alignment' => ['wrapText' => true]];
+        }
+
+        return $styles;
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 6,
+            'B' => 17,
+            'C' => 17,
+            'D' => 17,
+            'E' => 17,
+            'F' => 17,
+            'G' => 17,
+        ];
     }
 }

@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class AdditionalEventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $additionalEvents = AdditionalEvent::paginate(8);
+        $additionalEvents = AdditionalEvent::filter($request->all())->paginate(8);
 
         return view('additional_event.index', compact('additionalEvents'));
     }

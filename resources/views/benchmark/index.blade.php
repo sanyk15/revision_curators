@@ -26,7 +26,32 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col">
+                            <form action="{{ route('benchmarks.index') }}" class="p-2">
+                                <div class="row">
+                                    <div class="col">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="search"
+                                            placeholder="Поиск"
+                                            name="search"
+                                            value="{{ request('search') }}"
+                                        >
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                        <a href="{{ route('benchmarks.index') }}" class="btn btn-outline-danger">
+                                            <i class="bi bi-x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">

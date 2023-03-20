@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class IndicatorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $indicators = Indicator::query()->orderBy('title')->paginate(8);
+        $indicators = Indicator::filter($request->all())->orderBy('title')->paginate(8);
 
         return view('indicators.index', compact('indicators'));
     }

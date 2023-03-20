@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $groups = Group::query()->orderBy('title')->paginate(8);
+        $groups = Group::filter($request->all())->orderBy('title')->paginate(8);
 
         return view('groups.index', compact('groups'));
     }

@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $benchmarks = Benchmark::paginate(8);
+        $benchmarks = Benchmark::filter($request->all())->paginate(8);
 
         return view('benchmark.index', compact('benchmarks'));
     }

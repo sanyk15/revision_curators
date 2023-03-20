@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Indicator extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Filterable;
 
     protected $fillable = [
         'title',

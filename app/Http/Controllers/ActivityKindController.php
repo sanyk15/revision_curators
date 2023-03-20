@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class ActivityKindController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $activityKinds = ActivityKind::query()->orderBy('title')->paginate(8);
+        $activityKinds = ActivityKind::filter($request->all())->orderBy('title')->paginate(8);
 
         return view('activity_kinds.index', compact('activityKinds'));
     }

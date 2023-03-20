@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $activities = Activity::paginate(8);
+        $activities = Activity::filter($request->all())->orderBy('date')->paginate(8);
 
         return view('activities.index', compact('activities'));
     }
