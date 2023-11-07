@@ -18,7 +18,7 @@ class CreateActivitiesTable extends Migration
             $table->unsignedBigInteger('activity_kind_id');
             $table->unsignedBigInteger('benchmark_id')->nullable();
             $table->unsignedBigInteger('indicator_id')->nullable();
-            $table->unsignedBigInteger('curator_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_id');
             $table->dateTime('date');
             $table->string('threshold')->nullable();
@@ -31,7 +31,7 @@ class CreateActivitiesTable extends Migration
             $table->foreign('activity_kind_id')->references('id')->on('activity_kinds')->onDelete('cascade');
             $table->foreign('benchmark_id')->references('id')->on('benchmarks')->onDelete('set null');
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('set null');
-            $table->foreign('curator_id')->references('id')->on('curators')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }

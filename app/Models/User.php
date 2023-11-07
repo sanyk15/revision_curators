@@ -18,7 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'surname',
         'email',
         'password',
     ];
@@ -41,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getShortNameAttribute(): string
+    {
+        $string = $this->last_name . ' ' . mb_substr($this->first_name, 0, 1) . '.';
+        $string .= $this->surname ? ' ' . mb_substr($this->first_name, 0, 1) . '.' : '';
+
+        return $string;
+    }
 }

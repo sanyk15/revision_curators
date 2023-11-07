@@ -9,6 +9,7 @@ use App\Models\Curator;
 use App\Models\Group;
 use App\Models\Indicator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -23,14 +24,12 @@ class ActivityController extends Controller
     {
         $kinds = ActivityKind::all()->sortBy('title');
         $benchmarks = Benchmark::all()->sortBy('title');
-        $curators = Curator::all()->sortBy('surname_and_initials');
         $groups = Group::all()->sortBy('title');
         $indicators = Indicator::all()->sortBy('title');
 
         return view('activities.create', compact(
             'kinds',
             'benchmarks',
-            'curators',
             'groups',
             'indicators',
         ));
@@ -40,7 +39,10 @@ class ActivityController extends Controller
     {
         request()->validate(Activity::$rules);
 
-        Activity::create($request->all());
+        $attributes = $request->all();
+        $attributes['user_id'] = Auth::id();
+
+        Activity::create($attributes);
 
         return redirect()->route('activities.index');
     }
@@ -54,7 +56,6 @@ class ActivityController extends Controller
     {
         $kinds = ActivityKind::all()->sortBy('title');
         $benchmarks = Benchmark::all()->sortBy('title');
-        $curators = Curator::all()->sortBy('surname_and_initials');
         $groups = Group::all()->sortBy('title');
         $indicators = Indicator::all()->sortBy('title');
 
@@ -62,7 +63,6 @@ class ActivityController extends Controller
             'activity',
             'kinds',
             'benchmarks',
-            'curators',
             'groups',
             'indicators',
         ));

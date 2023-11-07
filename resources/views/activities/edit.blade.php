@@ -25,36 +25,6 @@
                             @method('PUT')
 
                             <div class="row mb-3">
-                                <label for="curator_id" class="col-md-4 col-form-label text-md-end">Куратор</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="curator_id"
-                                        class="form-control"
-                                        aria-label="Куратор"
-                                        required
-                                        autofocus
-                                        name="curator_id"
-                                    >
-                                        @foreach($curators as $curator)
-                                            <option
-                                                value="{{ $curator->id }}"
-                                                @if ($activity->curator_id == $curator->id) selected @endif
-                                            >
-                                                {{ $curator->surname_and_initials }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('curator_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
                                 <label for="group_id" class="col-md-4 col-form-label text-md-end">Группа</label>
 
                                 <div class="col-md-6">

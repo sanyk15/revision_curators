@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property              $activity_kind_id
  * @property              $benchmark_id
  * @property              $indicator_id
- * @property              $curator_id
+ * @property              $user_id
  * @property              $group_id
  * @property              $date
  * @property              $threshold
@@ -28,10 +28,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property ActivityKind $activityKind
  * @property Benchmark    $benchmark
- * @property Curator      $curator
+ * @property User         $user
  * @property Group        $group
  * @property Indicator    $indicator
- * @package App
  * @mixin Builder
  */
 class Activity extends Model
@@ -40,18 +39,17 @@ class Activity extends Model
 
     static $rules = [
         'activity_kind_id' => 'required',
-        'curator_id'       => 'required',
-        'group_id'         => 'required',
-        'date'             => 'required',
-        'possible_score'   => 'required',
-        'curator_score'    => 'required',
+        'group_id' => 'required',
+        'date' => 'required',
+        'possible_score' => 'required',
+        'curator_score' => 'required',
     ];
 
     protected $fillable = [
         'activity_kind_id',
         'benchmark_id',
         'indicator_id',
-        'curator_id',
+        'user_id',
         'group_id',
         'date',
         'threshold',
@@ -74,9 +72,9 @@ class Activity extends Model
         return $this->hasOne(Benchmark::class, 'id', 'benchmark_id');
     }
 
-    public function curator(): HasOne
+    public function user(): HasOne
     {
-        return $this->hasOne(Curator::class, 'id', 'curator_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function group(): HasOne
