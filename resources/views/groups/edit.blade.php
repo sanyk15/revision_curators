@@ -48,6 +48,52 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="students_count" class="col-md-4 col-form-label text-md-end">Количество студентов</label>
+
+                                <div class="col-md-6">
+                                    <input
+                                        id="students_count"
+                                        type="number"
+                                        class="form-control
+                                        @error('students_count') is-invalid @enderror"
+                                        name="students_count"
+                                        value="{{ old('students_count') ?? $group->students_count }}"
+                                        required
+                                        autocomplete="students_count"
+                                    >
+
+                                    @error('students_count')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="headman_email" class="col-md-4 col-form-label text-md-end">Email старосты</label>
+
+                                <div class="col-md-6">
+                                    <input
+                                        id="headman_email"
+                                        type="email"
+                                        class="form-control
+                                        @error('headman_email') is-invalid @enderror"
+                                        name="headman_email"
+                                        value="{{ old('headman_email') ?? $group->headman_email }}"
+                                        required
+                                        autocomplete="headman_email"
+                                    >
+
+                                    @error('headman_email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

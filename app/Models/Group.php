@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property integer $id
  * @property string $title
+ * @property integer $students_count
+ * @property string $headman_email
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
@@ -22,6 +24,8 @@ class Group extends Model
 
     protected $fillable = [
         'title',
+        'students_count',
+        'headman_email',
     ];
 
     protected $dates = [

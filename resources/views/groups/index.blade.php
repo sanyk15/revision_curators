@@ -59,6 +59,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Название</th>
+                                    <th>Кол-во студентов</th>
+                                    <th>Email старосты</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -67,7 +69,8 @@
                                     <tr>
                                         <td>{{ $group->id }}</td>
                                         <td>{{ $group->title }}</td>
-                                        <td>
+                                        <td>{{ $group->students_count }}</td>
+                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a><td>
                                             <form
                                                 action="{{ route('groups.destroy', $group->id) }}"
                                                 method="POST"
