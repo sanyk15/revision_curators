@@ -59,7 +59,7 @@
                                         class="form-control
                                         @error('date') is-invalid @enderror"
                                         name="date"
-                                        value="{{ old('date') }}"
+                                        value="{{ old('date') ?? (request()->get('date') ? \Carbon\Carbon::parse(request()->get('date')) : '') }}"
                                         required
                                         autocomplete="date"
                                     >

@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return redirect()->route('activities.index');
+});
+
+Route::get('/activities/get-for-month', [\App\Http\Controllers\ActivityController::class, 'getActivitiesForMonthByDate'])->name('activities.for-month');
 
 Route::middleware('auth')->group(function () {
     Route::resource('curators', \App\Http\Controllers\CuratorController::class);

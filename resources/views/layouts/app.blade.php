@@ -11,29 +11,73 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @yield('scripts')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    @yield('styles')
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar sticky-top navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('activities.index') }}">
                     Деятельность кураторов
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('curators.index') }}">
+                                <i class="bi-person-square"></i>
+                                Кураторы
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('groups.index') }}">
+                                <i class="bi-people"></i>
+                                Группы
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('additional_events.index') }}">
+                                <i class="bi bi-calendar-event"></i>
+                                Дополнительные мероприятия
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Справочники
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('activity_kinds.index') }}">
+                                    <i class="bi-activity"></i>
+                                    Виды деятельности
+                                </a>
+                                <a class="dropdown-item" href="{{ route('benchmarks.index') }}">
+                                    <i class="bi bi-bar-chart-steps"></i>
+                                    Критерии
+                                </a>
+                                <a class="dropdown-item" href="{{ route('indicators.index') }}">
+                                    <i class="bi bi-bar-chart"></i>
+                                    Показатели
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reports.main') }}">
+                                <i class="bi bi-file-earmark-excel"></i>
+                                Отчеты
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

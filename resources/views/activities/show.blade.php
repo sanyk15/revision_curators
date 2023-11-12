@@ -24,7 +24,7 @@
                             <h5 class="col-md-4 text-md-end">Куратор:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->curator->full_name }}</h5>
+                                <h5>{{ $activity->user->full_name }}</h5>
                             </div>
                         </div>
 

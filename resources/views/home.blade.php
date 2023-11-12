@@ -5,85 +5,33 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Меню</h3>
+                    <div class="card-body">
+                        <div id="calendar"></div>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('curators.index') }}"
-                            >
-                                <i class="bi-person-square"></i>
-                                Кураторы
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('groups.index') }}"
-                            >
-                                <i class="bi-people"></i>
-                                Группы
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('activity_kinds.index') }}"
-                            >
-                                <i class="bi-activity"></i>
-                                Виды деятельности
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('benchmarks.index') }}"
-                            >
-                                <i class="bi bi-bar-chart-steps"></i>
-                                Критерии
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('indicators.index') }}"
-                            >
-                                <i class="bi bi-bar-chart"></i>
-                                Показатели
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('additional_events.index') }}"
-                            >
-                                <i class="bi bi-calendar-event"></i>
-                                Дополнительные мероприятия
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('activities.index') }}"
-                            >
-                                <i class="bi bi-list-stars"></i>
-                                Деятельность кураторов
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a
-                                class="btn btn-primary btn-block col-12"
-                                href="{{ route('reports.main') }}"
-                            >
-                                <i class="bi bi-file-earmark-excel"></i>
-                                Отчеты
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                themeSystem: 'bootstrap5',
+                locale: 'ru',
+                initialView: 'dayGridMonth',
+                events: @json($activities),
+            });
+            calendar.render();
+        });
+    </script>
+@endsection
+
+@section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
 @endsection

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * Class Activity
@@ -25,6 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property              $created_at
  * @property              $updated_at
  * @property              $deleted_at
+ * @property              $title
  *
  * @property ActivityKind $activityKind
  * @property Benchmark    $benchmark
@@ -56,6 +59,7 @@ class Activity extends Model
         'assessment_frequency',
         'possible_score',
         'curator_score',
+        'title',
     ];
 
     protected $dates = [
@@ -85,5 +89,21 @@ class Activity extends Model
     public function indicator(): HasOne
     {
         return $this->hasOne(Indicator::class, 'id', 'indicator_id');
+    }
+
+    public static function getActivitiesForMonthByPeriod(Carbon $dateStart, Carbon $dateEnd): Collection
+    {
+        return Activity::query()
+            ->whereBetween('date', [$dateStart, $dateEnd])
+            ->get()
+            ->map(function (Activity $activity) {
+                return [
+                    'id' => $activity->id,
+                    'allDay' => true,
+                    'start' => $activity->date,
+                    'title' => $activity->title,
+                    'url' => route('activities.show', $activity->id),
+                ];
+            });
     }
 }

@@ -47,7 +47,15 @@ class User extends Authenticatable
     public function getShortNameAttribute(): string
     {
         $string = $this->last_name . ' ' . mb_substr($this->first_name, 0, 1) . '.';
-        $string .= $this->surname ? ' ' . mb_substr($this->first_name, 0, 1) . '.' : '';
+        $string .= $this->surname ? ' ' . mb_substr($this->surname, 0, 1) . '.' : '';
+
+        return $string;
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        $string = $this->last_name . ' ' . $this->first_name;
+        $string .= $this->surname ? ' ' . $this->surname : '';
 
         return $string;
     }
