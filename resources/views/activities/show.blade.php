@@ -11,6 +11,11 @@
                                 <h3>Деятельность куратора</h3>
                             </div>
                             <div class="col-auto">
+                                @if(\Illuminate\Support\Facades\Auth::id() == $activity->user_id)
+                                    <a class="btn btn-outline-primary" href="{{ route('activities.edit', $activity->id) }}">
+                                        <i class="bi-pencil-fill"></i>
+                                    </a>
+                                @endif
                                 <a class="btn btn-primary" href="{{ route('activities.index') }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
@@ -29,10 +34,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <h5 class="col-md-4 text-md-end">Группа:</h5>
+                            <h5 class="col-md-4 text-md-end">Группы:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->group->title }}</h5>
+                                <h5>{{ implode(', ', $activity->groups->pluck('title')->toArray()) }}</h5>
                             </div>
                         </div>
 

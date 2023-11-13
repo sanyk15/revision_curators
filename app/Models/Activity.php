@@ -5,6 +5,7 @@ namespace App\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -13,27 +14,27 @@ use Illuminate\Support\Collection;
 /**
  * Class Activity
  *
- * @property              $id
- * @property              $activity_kind_id
- * @property              $benchmark_id
- * @property              $indicator_id
- * @property              $user_id
- * @property              $group_id
- * @property              $date
- * @property              $threshold
- * @property              $assessment_frequency
- * @property              $possible_score
- * @property              $curator_score
- * @property              $created_at
- * @property              $updated_at
- * @property              $deleted_at
- * @property              $title
+ * @property integer      $id
+ * @property integer      $activity_kind_id
+ * @property integer      $benchmark_id
+ * @property integer      $indicator_id
+ * @property integer      $user_id
+ * @property Carbon       $date
+ * @property string       $threshold
+ * @property string       $assessment_frequency
+ * @property string       $possible_score
+ * @property integer      $curator_score
+ * @property Carbon       $created_at
+ * @property Carbon       $updated_at
+ * @property Carbon       $deleted_at
+ * @property string       $title
+ * @property array        $group_ids
  *
  * @property ActivityKind $activityKind
  * @property Benchmark    $benchmark
  * @property User         $user
- * @property Group        $group
  * @property Indicator    $indicator
+ * @property Collection   $groups
  * @mixin Builder
  */
 class Activity extends Model
@@ -42,10 +43,11 @@ class Activity extends Model
 
     static $rules = [
         'activity_kind_id' => 'required',
-        'group_id' => 'required',
+        'group_ids' => 'required|array',
         'date' => 'required',
         'possible_score' => 'required',
         'curator_score' => 'required',
+        'title' => 'required',
     ];
 
     protected $fillable = [
@@ -53,7 +55,6 @@ class Activity extends Model
         'benchmark_id',
         'indicator_id',
         'user_id',
-        'group_id',
         'date',
         'threshold',
         'assessment_frequency',
@@ -81,9 +82,9 @@ class Activity extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function group(): HasOne
+    public function groups(): BelongsToMany
     {
-        return $this->hasOne(Group::class, 'id', 'group_id');
+        return $this->belongsToMany(Group::class, 'activities_groups', 'activity_id', 'group_id');
     }
 
     public function indicator(): HasOne

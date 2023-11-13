@@ -21,6 +21,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-        "bootstrap-icons": "^1.10.3"
+        "bootstrap-icons": "^1.10.3",
+        "jqeury": "^0.0.1-security"
     }
 }

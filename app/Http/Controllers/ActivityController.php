@@ -37,11 +37,11 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         request()->validate(Activity::$rules);
-
         $attributes = $request->all();
         $attributes['user_id'] = Auth::id();
 
-        Activity::create($attributes);
+        $activity = Activity::create($attributes);
+        $activity->groups()->sync($attributes['group_ids'] ?? []);
 
         return redirect()->route('activities.index');
     }
@@ -57,6 +57,7 @@ class ActivityController extends Controller
         $benchmarks = Benchmark::all()->sortBy('title');
         $groups = Group::all()->sortBy('title');
         $indicators = Indicator::all()->sortBy('title');
+        $activity->group_ids = $activity->groups->pluck('id')->toArray();
 
         return view('activities.edit', compact(
             'activity',
@@ -72,6 +73,7 @@ class ActivityController extends Controller
         request()->validate(Activity::$rules);
 
         $activity->update($request->all());
+        $activity->groups()->sync($request->get('group_ids'));
 
         return redirect()->route('activities.index');
     }

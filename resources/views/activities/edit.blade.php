@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#group_ids').select2();
+        });
+    </script>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -11,7 +19,7 @@
                                 <h3>Редактирование деятельности куратора</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activities.index') }}">
+                                <a class="btn btn-primary" href="{{ route('activities.show', $activity->id) }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -25,27 +33,51 @@
                             @method('PUT')
 
                             <div class="row mb-3">
-                                <label for="group_id" class="col-md-4 col-form-label text-md-end">Группа</label>
+                                <label for="title" class="col-md-4 col-form-label text-md-end">Название</label>
+
+                                <div class="col-md-6">
+                                    <input
+                                        id="title"
+                                        type="text"
+                                        class="form-control
+                                        @error('title') is-invalid @enderror"
+                                        name="title"
+                                        value="{{ old('title') ?? $activity->title }}"
+                                        autocomplete="title"
+                                        autofocus
+                                    >
+
+                                    @error('title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="group_ids" class="col-md-4 col-form-label text-md-end">Группы</label>
 
                                 <div class="col-md-6">
                                     <select
-                                        id="group_id"
+                                        id="group_ids"
                                         class="form-control"
                                         aria-label="Группа"
                                         required
-                                        name="group_id"
+                                        name="group_ids[]"
+                                        multiple
                                     >
                                         @foreach($groups as $group)
                                             <option
                                                 value="{{ $group->id }}"
-                                                @if ($activity->group_id == $group->id) selected @endif
+                                                @if (in_array($group->id, $activity->group_ids)) selected @endif
                                             >
                                                 {{ $group->title }}
                                             </option>
                                         @endforeach
                                     </select>
 
-                                    @error('group_id')
+                                    @error('group_ids')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -256,7 +288,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Создать
+                                        Сохранить
                                     </button>
                                 </div>
                             </div>
