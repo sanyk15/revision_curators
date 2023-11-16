@@ -2,15 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Class User
+ *
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $surname
+ * @property string $email
+ * @property string $password
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    const ROLE_USER = 'user';
+    const ROLE_CURATOR = 'curator';
+    const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +57,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Получение сокращенного имени (Иванов И. И.)
+     *
+     * @return string
+     */
     public function getShortNameAttribute(): string
     {
         $string = $this->last_name . ' ' . mb_substr($this->first_name, 0, 1) . '.';
@@ -52,6 +70,11 @@ class User extends Authenticatable
         return $string;
     }
 
+    /**
+     * Получение полного ФИО
+     *
+     * @return string
+     */
     public function getFullNameAttribute(): string
     {
         $string = $this->last_name . ' ' . $this->first_name;

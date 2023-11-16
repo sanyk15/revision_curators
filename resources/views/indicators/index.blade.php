@@ -14,6 +14,7 @@
                             <span id="card_title">
                                 Показатели
                             </span>
+                            @role('admin')
                             <div class="float-right">
                                 <a
                                     href="{{ route('indicators.create') }}"
@@ -24,6 +25,7 @@
                                     Создать
                                 </a>
                             </div>
+                            @endrole
                         </div>
                     </div>
                     <div class="row">
@@ -68,6 +70,7 @@
                                         <td>{{ $indicator->id }}</td>
                                         <td>{{ $indicator->title }}</td>
                                         <td>
+                                            @role('admin')
                                             <form
                                                 action="{{ route('indicators.destroy', $indicator->id) }}"
                                                 method="POST"
@@ -84,6 +87,7 @@
                                                     <i class="bi-trash"></i>
                                                 </button>
                                             </form>
+                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach

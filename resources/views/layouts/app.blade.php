@@ -36,7 +36,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                    @auth
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('curators.index') }}">
@@ -75,13 +75,16 @@
                                 </a>
                             </div>
                         </li>
+                        @role('admin|curator')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('reports.main') }}">
                                 <i class="bi bi-file-earmark-excel"></i>
                                 Отчеты
                             </a>
                         </li>
+                        @endrole
                     </ul>
+                    @endauth
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -101,6 +104,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <span class="badge rounded-pill text-bg-primary">{{ auth()->user()->roles()->first()->name }}</span>
                                     {{ Auth::user()->shortName }}
                                 </a>
 

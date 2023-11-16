@@ -16,6 +16,7 @@
                                 Дополнительные мероприятия
                             </span>
 
+                            @role('admin')
                             <div class="float-right">
                                 <a
                                     href="{{ route('additional_events.create') }}"
@@ -26,6 +27,7 @@
                                     Создать
                                 </a>
                             </div>
+                            @endrole
                         </div>
                     </div>
                     <div class="row">
@@ -71,8 +73,8 @@
                                         <td>{{ $additionalEvent->id }}</td>
                                         <td>{{ $additionalEvent->title }}</td>
                                         <td>{{ \Carbon\Carbon::parse($additionalEvent->date)->format('d.m.Y H:i') }}</td>
-
                                         <td>
+                                            @role('admin')
                                             <form
                                                 action="{{ route('additional_events.destroy', $additionalEvent->id) }}"
                                                 method="POST"
@@ -89,6 +91,7 @@
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
+                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach

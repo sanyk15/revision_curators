@@ -30,7 +30,9 @@
                 initialDate: '{{ $date }}',
                 events: '{{ route('activities.for-month') }}',
                 dateClick: function (info) {
-                    window.location.replace('{{ route('activities.create') . '?date=' }}' + info.dateStr)
+                    if ({{ (int)auth()->user()->hasRole('admin|curator') }}) {
+                        window.location.replace('{{ route('activities.create') . '?date=' }}' + info.dateStr)
+                    }
                 }
             });
             calendar.render();

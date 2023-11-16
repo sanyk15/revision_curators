@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
 //            BenchmarksSeeder::class,
 //            IndicatorsSeeder::class,
 //            GroupsSeeder::class,
-            ActivitiesSeeder::class,
+//            ActivitiesSeeder::class,
+//            RolesSeeder::class,
         ]);
     }
 }

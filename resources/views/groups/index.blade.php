@@ -14,6 +14,7 @@
                             <span id="card_title">
                                 Группы
                             </span>
+                            @role('admin')
                             <div class="float-right">
                                 <a
                                     href="{{ route('groups.create') }}"
@@ -24,6 +25,7 @@
                                     Создать
                                 </a>
                             </div>
+                            @endrole
                         </div>
                     </div>
                     <div class="row">
@@ -70,7 +72,9 @@
                                         <td>{{ $group->id }}</td>
                                         <td>{{ $group->title }}</td>
                                         <td>{{ $group->students_count }}</td>
-                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a><td>
+                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a></td>
+                                        <td>
+                                            @role('admin')
                                             <form
                                                 action="{{ route('groups.destroy', $group->id) }}"
                                                 method="POST"
@@ -87,6 +91,7 @@
                                                     <i class="bi-trash"></i>
                                                 </button>
                                             </form>
+                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach
