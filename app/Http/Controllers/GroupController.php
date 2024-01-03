@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class GroupController extends Controller
 {
@@ -17,7 +19,9 @@ class GroupController extends Controller
 
     public function create()
     {
-        return view('groups.create');
+        $users = User::all()->sortBy('short_name')->values();
+
+        return view('groups.create', compact('users'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -26,14 +30,22 @@ class GroupController extends Controller
             'title' => 'required',
         ]);
 
-        Group::create($request->all());
+        $attributes = $request->all();
+
+        if (!Arr::has($attributes, 'user_id')) {
+            $attributes['user_id'] = auth()->id();
+        }
+
+        Group::create($attributes);
 
         return redirect()->route('groups.index');
     }
 
     public function edit(Group $group)
     {
-        return view('groups.edit',compact('group'));
+        $users = User::all()->sortBy('short_name')->toArray();
+
+        return view('groups.edit',compact('group', 'users'));
     }
 
     public function update(Request $request, Group $group): RedirectResponse
@@ -51,6 +63,6 @@ class GroupController extends Controller
     {
         $group->delete();
 
-        return redirect()->route('groups.index');
+        return redirect()->back();
     }
 }

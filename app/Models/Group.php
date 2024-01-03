@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -26,6 +27,7 @@ class Group extends Model
         'title',
         'students_count',
         'headman_email',
+        'user_id',
     ];
 
     protected $dates = [
@@ -33,4 +35,9 @@ class Group extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

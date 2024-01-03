@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Кураторы
+    Пользователи
 @endsection
 
 @section('content')
@@ -12,11 +12,11 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                Кураторы
+                                Пользователи
                             </span>
                             <div class="float-right">
                                 <a
-                                    href="{{ route('curators.create') }}"
+                                    href="{{ route('users.create') }}"
                                     class="btn btn-primary btn-sm float-right"
                                     data-placement="left"
                                 >
@@ -28,7 +28,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <form action="{{ route('curators.index') }}" class="p-2">
+                            <form action="{{ route('users.index') }}" class="p-2">
                                 <div class="row">
                                     <div class="col">
                                         <input
@@ -44,7 +44,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             <i class="bi bi-search"></i>
                                         </button>
-                                        <a href="{{ route('curators.index') }}" class="btn btn-outline-danger">
+                                        <a href="{{ route('users.index') }}" class="btn btn-outline-danger">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -59,22 +59,30 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>ФИО</th>
+                                    <th>Роль</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($curators as $curator)
+                                @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $curator->id }}</td>
-                                        <td>{{ $curator->full_name }}</td>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->full_name }}</td>
+                                        <td>
+                                            <h5>
+                                                <span class="badge badge-lg rounded-pill text-bg-primary">
+                                                    {{ $user->role_name }}
+                                                </span>
+                                            </h5>
+                                        </td>
                                         <td>
                                             <form
-                                                action="{{ route('curators.destroy', $curator->id) }}"
+                                                action="{{ route('users.destroy', $user->id) }}"
                                                 method="POST"
                                             >
                                                 <a
                                                     class="btn btn-sm btn-success"
-                                                    href="{{ route('curators.edit', $curator->id) }}"
+                                                    href="{{ route('users.edit', $user->id) }}"
                                                 >
                                                     <i class="bi-pencil"></i>
                                                 </a>
@@ -93,7 +101,7 @@
                     </div>
                     @include(
                         'vendor.pagination.default',
-                        $curators->links()->getData()
+                        $users->links()->getData()
                     )
                 </div>
             </div>

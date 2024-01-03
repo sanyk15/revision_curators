@@ -48,6 +48,37 @@
                                 </div>
                             </div>
 
+                            @role('admin')
+                            <div class="row mb-3">
+                                <label for="user_id" class="col-md-4 col-form-label text-md-end">Куратор группы</label>
+
+                                <div class="col-md-6">
+                                    <select
+                                        id="user_id"
+                                        class="form-control"
+                                        aria-label="Куратор группы"
+                                        required
+                                        name="user_id"
+                                    >
+                                        @foreach($users as $user)
+                                            <option
+                                                value="{{ $user->id }}"
+                                                @if($group->user_id == $user->id) selected @endif
+                                            >
+                                                {{ $user->short_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('user_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            @endrole
+
                             <div class="row mb-3">
                                 <label for="students_count" class="col-md-4 col-form-label text-md-end">Количество студентов</label>
 

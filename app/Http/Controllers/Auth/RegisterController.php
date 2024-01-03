@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $userRole = Role::query()->where('name', '=', User::ROLE_USER)->first();
+        $userRole = Role::query()->where('name', '=', User::ROLE_CURATOR)->first();
         $user->roles()->sync([$userRole->id]);
 
         return $user;

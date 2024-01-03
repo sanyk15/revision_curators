@@ -14,7 +14,6 @@
                             <span id="card_title">
                                 Группы
                             </span>
-                            @role('admin')
                             <div class="float-right">
                                 <a
                                     href="{{ route('groups.create') }}"
@@ -25,7 +24,6 @@
                                     Создать
                                 </a>
                             </div>
-                            @endrole
                         </div>
                     </div>
                     <div class="row">
@@ -61,6 +59,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Название</th>
+                                    <th>Куратор группы</th>
                                     <th>Кол-во студентов</th>
                                     <th>Email старосты</th>
                                     <th></th>
@@ -71,20 +70,27 @@
                                     <tr>
                                         <td>{{ $group->id }}</td>
                                         <td>{{ $group->title }}</td>
+                                        <td>
+                                            @if($group->user_id)
+                                                {{ $group->user->short_name }}
+                                            @endif
+                                        </td>
                                         <td>{{ $group->students_count }}</td>
                                         <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a></td>
                                         <td>
+                                            @role('curator')
+                                            <a
+                                                class="btn btn-sm btn-success"
+                                                href="{{ route('groups.edit', $group->id) }}"
+                                            >
+                                                <i class="bi-pencil"></i>
+                                            </a>
+                                            @endrole
                                             @role('admin')
                                             <form
                                                 action="{{ route('groups.destroy', $group->id) }}"
                                                 method="POST"
                                             >
-                                                <a
-                                                    class="btn btn-sm btn-success"
-                                                    href="{{ route('groups.edit', $group->id) }}"
-                                                >
-                                                    <i class="bi-pencil"></i>
-                                                </a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">

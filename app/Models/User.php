@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -16,14 +19,20 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $surname
  * @property string $email
  * @property string $password
+ * @property Group[]|Collection $groups
+ * @property Activity[]|Collection $activities
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Filterable;
 
-    const ROLE_USER = 'user';
     const ROLE_CURATOR = 'curator';
     const ROLE_ADMIN = 'admin';
+
+    const ROLE_NAMES = [
+        self::ROLE_CURATOR => 'Куратор',
+        self::ROLE_ADMIN => 'Администратор',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +67,26 @@ class User extends Authenticatable
     ];
 
     /**
+     * Группы пользователя
+     *
+     * @return HasMany
+     */
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    /**
+     * Мероприятия пользователя
+     *
+     * @return HasMany
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
      * Получение сокращенного имени (Иванов И. И.)
      *
      * @return string
@@ -81,5 +110,17 @@ class User extends Authenticatable
         $string .= $this->surname ? ' ' . $this->surname : '';
 
         return $string;
+    }
+
+    /**
+     * Получение названия роли
+     *
+     * @return string
+     */
+    public function getRoleNameAttribute(): ?string
+    {
+        $roleName = $this->roles()->first()->name;
+
+        return self::ROLE_NAMES[$roleName] ?? null;
     }
 }

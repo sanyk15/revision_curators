@@ -39,9 +39,9 @@
                     @auth
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('curators.index') }}">
+                            <a class="nav-link" href="{{ route('users.index') }}">
                                 <i class="bi-person-square"></i>
-                                Кураторы
+                                Пользователи
                             </a>
                         </li>
                         <li class="nav-item">
@@ -109,6 +109,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profile') }}">
+                                        Профиль
+                                    </a>
                                     <a
                                         class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
