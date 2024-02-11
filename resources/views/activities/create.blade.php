@@ -16,7 +16,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Создание деятельности куратора</h3>
+                                <h3>Создание мероприятия</h3>
                             </div>
                             <div class="col-auto">
                                 <a class="btn btn-primary" href="{{ route('activities.index') }}">

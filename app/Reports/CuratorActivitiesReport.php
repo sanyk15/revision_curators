@@ -33,8 +33,8 @@ class CuratorActivitiesReport implements FromView, WithStyles, ShouldAutoSize, W
         $k = 0;
         $activities = $this->activities
             ->map(function (Activity $activity) use (&$curatorsWithGroups) {
-                $activity->curator_name = $activity->curator->surname_and_initials;
-                $activity->group_name = $activity->group->title;
+                $activity->curator_name = $activity->user->surname_and_initials;
+                $activity->groups_names = implode(', ', $activity->groups->pluck('title')->toArray());
 
                 $curatorsWithGroups->push([
                     'curator' => $activity->curator_name,

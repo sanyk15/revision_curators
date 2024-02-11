@@ -19,7 +19,8 @@
                             role="tab"
                             aria-controls="main"
                             aria-selected="true"
-                        >Данные профиля
+                        >
+                            Данные профиля
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -32,7 +33,8 @@
                             role="tab"
                             aria-controls="groups"
                             aria-selected="false"
-                        >Мои группы
+                        >
+                            Мои группы
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -45,7 +47,8 @@
                             role="tab"
                             aria-controls="activities"
                             aria-selected="false"
-                        >Мои мероприятия
+                        >
+                            Предстоящие мероприятия
                         </button>
                     </li>
                 </ul>

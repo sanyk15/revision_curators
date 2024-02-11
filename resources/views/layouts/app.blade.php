@@ -38,12 +38,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @auth
                     <ul class="navbar-nav me-auto">
+                        @role('admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">
                                 <i class="bi-person-square"></i>
                                 Пользователи
                             </a>
                         </li>
+                        @endrole
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('groups.index') }}">
                                 <i class="bi-people"></i>

@@ -76,28 +76,38 @@
                                             @endif
                                         </td>
                                         <td>{{ $group->students_count }}</td>
-                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a></td>
+                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a>
+                                        </td>
                                         <td>
-                                            @role('curator')
-                                            <a
-                                                class="btn btn-sm btn-success"
-                                                href="{{ route('groups.edit', $group->id) }}"
-                                            >
-                                                <i class="bi-pencil"></i>
-                                            </a>
-                                            @endrole
-                                            @role('admin')
                                             <form
                                                 action="{{ route('groups.destroy', $group->id) }}"
                                                 method="POST"
                                             >
+                                                @role('admin')
+                                                <a
+                                                    class="btn btn-sm btn-success"
+                                                    href="{{ route('groups.edit', $group->id) }}"
+                                                >
+                                                    <i class="bi-pencil"></i>
+                                                </a>
+
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
                                                     <i class="bi-trash"></i>
                                                 </button>
+                                                @endrole
+                                                @role('curator')
+                                                @if ($group->user_id == auth()->id())
+                                                    <a
+                                                        class="btn btn-sm btn-success"
+                                                        href="{{ route('groups.edit', $group->id) }}"
+                                                    >
+                                                        <i class="bi-pencil"></i>
+                                                    </a>
+                                                @endif
+                                                @endrole
                                             </form>
-                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach
