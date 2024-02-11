@@ -7,9 +7,9 @@ use App\Models\ActivityKind;
 use App\Models\Benchmark;
 use App\Models\Group;
 use App\Models\Indicator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
@@ -34,13 +34,13 @@ class ActivityController extends Controller
         ));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         request()->validate(Activity::$rules);
         $attributes = $request->all();
         $attributes['user_id'] = Auth::id();
 
-        $activity = Activity::create($attributes);
+        $activity = (new Activity)->create($attributes);
         $activity->groups()->sync($attributes['group_ids'] ?? []);
 
         return redirect()->route('activities.index');
@@ -68,7 +68,7 @@ class ActivityController extends Controller
         ));
     }
 
-    public function update(Request $request, Activity $activity)
+    public function update(Request $request, Activity $activity): RedirectResponse
     {
         request()->validate(Activity::$rules);
 
@@ -78,7 +78,7 @@ class ActivityController extends Controller
         return redirect()->route('activities.index');
     }
 
-    public function destroy(Activity $activity)
+    public function destroy(Activity $activity): RedirectResponse
     {
         $activity->delete();
 
@@ -91,5 +91,29 @@ class ActivityController extends Controller
         $dateEnd = Carbon::parse($request->get('end'));
 
         return Activity::getActivitiesForMonthByPeriod($dateStart, $dateEnd)->toJson();
+    }
+
+    public function editNotMine(Activity $activity)
+    {
+        $groups = auth()->user()->groups->sortBy('title')->values();
+        $activityGroups = $activity->groups->pluck('id')->toArray();
+
+        return view('activities.edit-not-mine', compact(
+            'activity',
+            'groups',
+            'activityGroups',
+        ));
+    }
+
+    public function updateNotMine(Request $request, Activity $activity): RedirectResponse
+    {
+        $activityGroupIds = $activity->groups->pluck('id')->toArray();
+
+        $activityGroupIds = array_diff($activityGroupIds, auth()->user()->groups->pluck('id')->toArray());
+        $activityGroupIds = array_merge($activityGroupIds, $request->get('group_ids') ?? []);
+
+        $activity->groups()->sync($activityGroupIds);
+
+        return redirect()->route('activities.show', $activity->id);
     }
 }

@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:curator|admin')->group(function () {
         Route::resource('groups', \App\Http\Controllers\GroupController::class)->except(['index', 'show']);
         Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
+        Route::get('activities/{activity}/edit-not-mine', 'App\Http\Controllers\ActivityController@editNotMine')->name('activities.edit-not-mine');
+        Route::post('activities/{activity}/update-not-mine', 'App\Http\Controllers\ActivityController@updateNotMine')->name('activities.update-not-mine');
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
             Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');

@@ -8,15 +8,19 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Деятельность куратора</h3>
+                                <h3>Мероприятие</h3>
                             </div>
                             <div class="col-auto">
                                 @role('admin|curator')
-                                    @if(\Illuminate\Support\Facades\Auth::id() == $activity->user_id)
-                                        <a class="btn btn-outline-primary" href="{{ route('activities.edit', $activity->id) }}">
-                                            <i class="bi-pencil-fill"></i>
-                                        </a>
-                                    @endif
+                                @if(\Illuminate\Support\Facades\Auth::id() == $activity->user_id)
+                                    <a class="btn btn-outline-primary" href="{{ route('activities.edit', $activity->id) }}">
+                                        <i class="bi-pencil-fill"></i>
+                                    </a>
+                                @else
+                                    <a class="btn btn-outline-primary" href="{{ route('activities.edit-not-mine', $activity->id) }}">
+                                        <i class="bi-people"></i><i class="bi-plus"></i>
+                                    </a>
+                                @endif
                                 @endrole
                                 <a class="btn btn-primary" href="{{ route('activities.index') }}">
                                     <i class="bi-arrow-left"></i>
@@ -28,21 +32,12 @@
 
                     <div class="card-body">
                         <div class="row mb-3">
-                            <h5 class="col-md-4 text-md-end">Куратор:</h5>
+                            <h5 class="col-md-4 text-md-end">Название:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->user->full_name }}</h5>
+                                <h5>{{ $activity->title }}</h5>
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                            <h5 class="col-md-4 text-md-end">Группы:</h5>
-
-                            <div class="col-md-6">
-                                <h5>{{ implode(', ', $activity->groups->pluck('title')->toArray()) }}</h5>
-                            </div>
-                        </div>
-
                         <div class="row mb-3">
                             <h5 class="col-md-4 text-md-end">Дата и время:</h5>
 
@@ -50,7 +45,22 @@
                                 <h5>{{ $activity->date->format('d.m.Y H:i') }}</h5>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row mb-3">
+                            <h5 class="col-md-4 text-md-end">Куратор:</h5>
 
+                            <div class="col-md-6">
+                                <h5>{{ $activity->user->full_name }}</h5>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <h5 class="col-md-4 text-md-end">Группы:</h5>
+
+                            <div class="col-md-6">
+                                <h5>{{ implode(', ', $activity->groups->pluck('title')->toArray()) }}</h5>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row mb-3">
                             <h5 class="col-md-4 text-md-end">Направление:</h5>
 
