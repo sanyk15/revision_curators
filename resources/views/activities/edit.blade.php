@@ -56,36 +56,6 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="group_ids" class="col-md-4 col-form-label text-md-end">Группы</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="group_ids"
-                                        class="form-control"
-                                        aria-label="Группа"
-                                        required
-                                        name="group_ids[]"
-                                        multiple
-                                    >
-                                        @foreach($groups as $group)
-                                            <option
-                                                value="{{ $group->id }}"
-                                                @if (in_array($group->id, $activity->group_ids)) selected @endif
-                                            >
-                                                {{ $group->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('group_ids')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
                                 <label for="date" class="col-md-4 col-form-label text-md-end">Дата и время</label>
 
                                 <div class="col-md-6">

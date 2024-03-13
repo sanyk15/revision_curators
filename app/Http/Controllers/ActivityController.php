@@ -7,6 +7,7 @@ use App\Models\ActivityKind;
 use App\Models\Benchmark;
 use App\Models\Group;
 use App\Models\Indicator;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -25,12 +26,14 @@ class ActivityController extends Controller
         $benchmarks = Benchmark::all()->sortBy('title');
         $groups = Group::all()->sortBy('title');
         $indicators = Indicator::all()->sortBy('title');
+        $users = User::query()->curators()->get()->sortBy('short_name')->values();
 
         return view('activities.create', compact(
             'kinds',
             'benchmarks',
             'groups',
             'indicators',
+            'users',
         ));
     }
 

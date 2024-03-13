@@ -17,13 +17,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class)->except(['index', 'show']);
         Route::resource('additional_events', \App\Http\Controllers\AdditionalEventController::class)->except(['index', 'show']);
         Route::resource('users', \App\Http\Controllers\UserController::class);
+        Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
     });
 
     Route::middleware('role:curator|admin')->group(function () {
         Route::resource('groups', \App\Http\Controllers\GroupController::class)->except(['index', 'show']);
-        Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
-        Route::get('activities/{activity}/edit-not-mine', 'App\Http\Controllers\ActivityController@editNotMine')->name('activities.edit-not-mine');
-        Route::post('activities/{activity}/update-not-mine', 'App\Http\Controllers\ActivityController@updateNotMine')->name('activities.update-not-mine');
+        Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show', 'create']);
+        Route::get('activities/{activity}/add-groups', [\App\Http\Controllers\ActivityController::class, 'addGroupsForm'])->name('activities.add-groups-form');
+        Route::post('activities/{activity}/add-groups', [\App\Http\Controllers\ActivityController::class, 'addGroups'])->name('activities.add-groups');
         Route::prefix('reports')->name('reports.')->group(function () {
             Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
             Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');

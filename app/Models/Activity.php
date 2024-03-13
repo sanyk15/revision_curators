@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Spatie\CalendarLinks\Link;
 
 /**
  * Class Activity
@@ -43,11 +44,12 @@ class Activity extends Model
 
     static $rules = [
         'activity_kind_id' => 'required',
-        'group_ids' => 'required|array',
+        'group_ids' => 'array',
         'date' => 'required',
         'possible_score' => 'required',
         'curator_score' => 'required',
         'title' => 'required',
+        'user_id' => 'required',
     ];
 
     protected $fillable = [
@@ -106,5 +108,19 @@ class Activity extends Model
                     'url' => route('activities.show', $activity->id),
                 ];
             });
+    }
+
+    /**
+     * Ссылка на создание ивента в google календаре
+     *
+     * @return string
+     */
+    public function getCalendarLinkAttribute(): string
+    {
+        return Link::create(
+            $this->title,
+            $this->date,
+            $this->date->addHour(),
+        )->google();
     }
 }

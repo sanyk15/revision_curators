@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -122,5 +123,17 @@ class User extends Authenticatable
         $roleName = $this->roles()->first()->name;
 
         return self::ROLE_NAMES[$roleName] ?? null;
+    }
+
+    /**
+     * Получение только кураторов.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeCurators(Builder $query): Builder
+    {
+        return $query->role([self::ROLE_CURATOR]);
     }
 }

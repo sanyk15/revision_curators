@@ -55,33 +55,6 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="group_ids" class="col-md-4 col-form-label text-md-end">Группы</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="group_ids"
-                                        class="form-control js-example-basic-multiple"
-                                        aria-label="Группа"
-                                        required
-                                        name="group_ids[]"
-                                        multiple="multiple"
-                                    >
-                                        @foreach($groups as $group)
-                                            <option value="{{ $group->id }}">
-                                                {{ $group->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('group_ids')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
                                 <label for="date" class="col-md-4 col-form-label text-md-end">Дата и время</label>
 
                                 <div class="col-md-6">
@@ -97,6 +70,32 @@
                                     >
 
                                     @error('date')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="user_id" class="col-md-4 col-form-label text-md-end">Куратор</label>
+
+                                <div class="col-md-6">
+                                    <select
+                                        id="user_id"
+                                        class="form-control"
+                                        aria-label="Куратор"
+                                        required
+                                        name="user_id"
+                                    >
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}">
+                                                {{ $user->short_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('user_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
