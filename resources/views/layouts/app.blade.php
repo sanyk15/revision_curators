@@ -52,12 +52,6 @@
                                 Группы
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('additional_events.index') }}">
-                                <i class="bi bi-calendar-event"></i>
-                                Дополнительные мероприятия
-                            </a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Справочники
@@ -74,6 +68,10 @@
                                 <a class="dropdown-item" href="{{ route('indicators.index') }}">
                                     <i class="bi bi-bar-chart"></i>
                                     Показатели
+                                </a>
+                                <a class="dropdown-item" href="{{ route('activity_types.index') }}">
+                                    <i class="bi bi-border-width"></i>
+                                    Типы мероприятий
                                 </a>
                             </div>
                         </li>

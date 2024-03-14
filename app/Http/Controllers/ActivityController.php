@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\ActivityKind;
+use App\Models\ActivityType;
 use App\Models\Benchmark;
 use App\Models\Group;
 use App\Models\Indicator;
@@ -22,24 +23,22 @@ class ActivityController extends Controller
 
     public function create()
     {
-        $kinds = ActivityKind::all()->sortBy('title');
-        $benchmarks = Benchmark::all()->sortBy('title');
-        $groups = Group::all()->sortBy('title');
-        $indicators = Indicator::all()->sortBy('title');
         $users = User::query()->curators()->get()->sortBy('short_name')->values();
+        $types = ActivityType::query()->get()->sortBy('title');
+
+        if (Auth::user()->hasRole([User::ROLE_CURATOR])) {
+            $types = $types->where('code', '=', ActivityType::ADDITIONAL_EVENT_TYPE_CODE);
+            $users = $users->where('id', '=', Auth::id());
+        }
 
         return view('activities.create', compact(
-            'kinds',
-            'benchmarks',
-            'groups',
-            'indicators',
             'users',
+            'types',
         ));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        request()->validate(Activity::$rules);
         $attributes = $request->all();
         $attributes['user_id'] = Auth::id();
 

@@ -16,7 +16,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Запись/снятие групп с мероприятия</h3>
+                                <h3>Запись групп с мероприятия</h3>
                             </div>
                             <div class="col-auto">
                                 <a class="btn btn-primary" href="{{ route('activities.show', $activity->id) }}">
@@ -27,10 +27,10 @@
                         </div>
                     </div>
 
-                    <span class="alert alert-primary m-1">Запись и снятие своих групп с мероприятия</span>
+                    <span class="alert alert-primary m-1">Запись своих групп на мероприятия</span>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('activities.update-not-mine', $activity->id) }}">
+                        <form method="POST" action="{{ route('activities.add-groups', $activity->id) }}">
                             @csrf
 
                             <div class="row mb-3">

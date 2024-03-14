@@ -36,6 +36,7 @@ use Spatie\CalendarLinks\Link;
  * @property User         $user
  * @property Indicator    $indicator
  * @property Collection   $groups
+ * @property ActivityType $type
  * @mixin Builder
  */
 class Activity extends Model
@@ -43,11 +44,8 @@ class Activity extends Model
     use SoftDeletes, Filterable;
 
     static $rules = [
-        'activity_kind_id' => 'required',
         'group_ids' => 'array',
         'date' => 'required',
-        'possible_score' => 'required',
-        'curator_score' => 'required',
         'title' => 'required',
         'user_id' => 'required',
     ];
@@ -63,6 +61,7 @@ class Activity extends Model
         'possible_score',
         'curator_score',
         'title',
+        'type_id',
     ];
 
     protected $dates = [
@@ -94,6 +93,11 @@ class Activity extends Model
         return $this->hasOne(Indicator::class, 'id', 'indicator_id');
     }
 
+    public function type(): HasOne
+    {
+        return $this->hasOne(ActivityType::class, 'id', 'type_id');
+    }
+
     public static function getActivitiesForMonthByPeriod(Carbon $dateStart, Carbon $dateEnd): Collection
     {
         return Activity::query()
@@ -122,5 +126,16 @@ class Activity extends Model
             $this->date,
             $this->date->addHour(),
         )->google();
+    }
+
+    public function fullByType()
+    {
+        $this->activity_kind_id = $this->type->activity_kind_id;
+        $this->benchmark_id = $this->type->benchmark_id;
+        $this->indicator_id = $this->type->indicator_id;
+        $this->threshold = $this->type->threshold;
+        $this->assessment_frequency = $this->type->assessment_frequency;
+        $this->possible_score = $this->type->possible_score;
+        $this->curator_score = $this->type->curator_score;
     }
 }

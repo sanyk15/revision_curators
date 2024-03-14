@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Дополнительные мероприятия
+    Типы мероприятий
 @endsection
 
 @section('content')
@@ -11,15 +11,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-
                             <span id="card_title">
-                                Дополнительные мероприятия
+                                Типы мероприятий
                             </span>
-
                             @role('admin')
                             <div class="float-right">
                                 <a
-                                    href="{{ route('additional_events.create') }}"
+                                    href="{{ route('activity_types.create') }}"
                                     class="btn btn-primary btn-sm float-right"
                                     data-placement="left"
                                 >
@@ -32,7 +30,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <form action="{{ route('additional_events.index') }}" class="p-2">
+                            <form action="{{ route('activity_types.index') }}" class="p-2">
                                 <div class="row">
                                     <div class="col">
                                         <input
@@ -48,7 +46,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             <i class="bi bi-search"></i>
                                         </button>
-                                        <a href="{{ route('additional_events.index') }}" class="btn btn-outline-danger">
+                                        <a href="{{ route('activity_types.index') }}" class="btn btn-outline-danger">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -63,35 +61,39 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Название</th>
-                                    <th>Дата и время</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($additionalEvents as $additionalEvent)
+                                @foreach ($activityTypes as $type)
                                     <tr>
-                                        <td>{{ $additionalEvent->id }}</td>
-                                        <td>{{ $additionalEvent->title }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($additionalEvent->date)->format('d.m.Y H:i') }}</td>
+                                        <td>{{ $type->id }}</td>
+                                        <td>{{ $type->title }}</td>
                                         <td>
-                                            @role('admin')
                                             <form
-                                                action="{{ route('additional_events.destroy', $additionalEvent->id) }}"
+                                                action="{{ route('activity_types.destroy',$type->id) }}"
                                                 method="POST"
                                             >
                                                 <a
-                                                    class="btn btn-sm btn-success"
-                                                    href="{{ route('additional_events.edit',$additionalEvent->id) }}"
+                                                    class="btn btn-sm btn-info"
+                                                    href="{{ route('activity_types.show',$type->id) }}"
                                                 >
-                                                    <i class="bi bi-pencil"></i>
+                                                    <i class="bi-eye"></i>
+                                                </a>
+                                                @role('admin')
+                                                <a
+                                                    class="btn btn-sm btn-success"
+                                                    href="{{ route('activity_types.edit',$type->id) }}"
+                                                >
+                                                    <i class="bi-pencil"></i>
                                                 </a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="bi bi-trash"></i>
+                                                    <i class="bi-trash"></i>
                                                 </button>
+                                                @endrole
                                             </form>
-                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach
@@ -101,7 +103,7 @@
                     </div>
                     @include(
                         'vendor.pagination.default',
-                        $additionalEvents->links()->getData()
+                        $activityTypes->links()->getData()
                     )
                 </div>
             </div>

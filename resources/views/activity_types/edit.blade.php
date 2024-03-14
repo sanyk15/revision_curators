@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#group_ids').select2();
-        });
-    </script>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -16,10 +8,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Редактирование мероприятия</h3>
+                                <h3>Редактирование типа мероприятия</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activities.show', $activity->id) }}">
+                                <a class="btn btn-primary" href="{{ route('activity_types.show', $activityType->id) }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -28,14 +20,7 @@
                     </div>
 
                     <div class="card-body">
-                        @if($errors)
-                            @foreach ($errors->all() as $error)
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error }}
-                                </div>
-                            @endforeach
-                        @endif
-                        <form method="POST" action="{{ route('activities.update', $activity->id) }}">
+                        <form method="POST" action="{{ route('activity_types.update', $activityType->id) }}">
                             @csrf
                             @method('PUT')
 
@@ -49,7 +34,7 @@
                                         class="form-control
                                         @error('title') is-invalid @enderror"
                                         name="title"
-                                        value="{{ old('title') ?? $activity->title }}"
+                                        value="{{ old('title') ?? $activityType->title }}"
                                         autocomplete="title"
                                         autofocus
                                     >
@@ -61,59 +46,6 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="row mb-3">
-                                <label for="date" class="col-md-4 col-form-label text-md-end">Дата и время</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="date"
-                                        type="datetime-local"
-                                        class="form-control
-                                        @error('date') is-invalid @enderror"
-                                        name="date"
-                                        value="{{ old('date') ?? $activity->date->toDateTimeLocalString() }}"
-                                        autocomplete="date"
-                                    >
-
-                                    @error('date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            @role('admin')
-                            <div class="row mb-3">
-                                <label for="user_id" class="col-md-4 col-form-label text-md-end">Куратор</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="user_id"
-                                        class="form-control"
-                                        aria-label="Куратор"
-                                        required
-                                        name="user_id"
-                                    >
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}">
-                                                {{ $user->short_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('user_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            @endrole
-                            @role('curator')
-                            <input type="hidden" name="user_id" value="{{ $activity->user_id }}">
-                            @endrole
 
                             <div class="row mb-3">
                                 <label for="activity_kind_id" class="col-md-4 col-form-label text-md-end">Направление</label>
@@ -129,7 +61,7 @@
                                         @foreach($kinds as $kind)
                                             <option
                                                 value="{{ $kind->id }}"
-                                                @if ($activity->activity_kind_id == $kind->id) selected @endif
+                                                @if ($activityType->activity_kind_id == $kind->id) selected @endif
                                             >
                                                 {{ $kind->title }}
                                             </option>
@@ -158,7 +90,7 @@
                                         @foreach($benchmarks as $benchmark)
                                             <option
                                                 value="{{ $benchmark->id }}"
-                                                @if ($activity->benchmark_id == $benchmark->id) selected @endif
+                                                @if ($activityType->benchmark_id == $benchmark->id) selected @endif
                                             >
                                                 {{ $benchmark->title }}
                                             </option>
@@ -187,7 +119,7 @@
                                         @foreach($indicators as $indicator)
                                             <option
                                                 value="{{ $indicator->id }}"
-                                                @if ($activity->indicator_id == $indicator->id) selected @endif
+                                                @if ($activityType->indicator_id == $indicator->id) selected @endif
                                             >
                                                 {{ $indicator->title }}
                                             </option>
@@ -212,7 +144,7 @@
                                         class="form-control
                                         @error('threshold') is-invalid @enderror"
                                         name="threshold"
-                                        value="{{ old('threshold') ?? $activity->threshold }}"
+                                        value="{{ old('threshold') ?? $activityType->threshold }}"
                                         autocomplete="threshold"
                                     >
 
@@ -234,7 +166,7 @@
                                         class="form-control
                                         @error('assessment_frequency') is-invalid @enderror"
                                         name="assessment_frequency"
-                                        value="{{ old('assessment_frequency') ?? $activity->assessment_frequency }}"
+                                        value="{{ old('assessment_frequency') ?? $activityType->assessment_frequency }}"
                                         autocomplete="assessment_frequency"
                                     >
 
@@ -256,7 +188,7 @@
                                         class="form-control
                                         @error('possible_score') is-invalid @enderror"
                                         name="possible_score"
-                                        value="{{ old('possible_score') ?? $activity->possible_score }}"
+                                        value="{{ old('possible_score') ?? $activityType->possible_score }}"
                                         autocomplete="possible_score"
                                     >
 
@@ -278,7 +210,7 @@
                                         class="form-control
                                         @error('curator_score') is-invalid @enderror"
                                         name="curator_score"
-                                        value="{{ old('curator_score') ?? $activity->curator_score }}"
+                                        value="{{ old('curator_score') ?? $activityType->curator_score }}"
                                         autocomplete="curator_score"
                                     >
 

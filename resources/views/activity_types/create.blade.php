@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#group_ids').select2();
-        });
-    </script>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -16,10 +8,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Редактирование мероприятия</h3>
+                                <h3>Создание типа мероприятия</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activities.show', $activity->id) }}">
+                                <a class="btn btn-primary" href="{{ route('activity_types.index') }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -28,16 +20,8 @@
                     </div>
 
                     <div class="card-body">
-                        @if($errors)
-                            @foreach ($errors->all() as $error)
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error }}
-                                </div>
-                            @endforeach
-                        @endif
-                        <form method="POST" action="{{ route('activities.update', $activity->id) }}">
+                        <form method="POST" action="{{ route('activity_types.store') }}">
                             @csrf
-                            @method('PUT')
 
                             <div class="row mb-3">
                                 <label for="title" class="col-md-4 col-form-label text-md-end">Название</label>
@@ -49,7 +33,7 @@
                                         class="form-control
                                         @error('title') is-invalid @enderror"
                                         name="title"
-                                        value="{{ old('title') ?? $activity->title }}"
+                                        value="{{ old('title') }}"
                                         autocomplete="title"
                                         autofocus
                                     >
@@ -63,59 +47,6 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="date" class="col-md-4 col-form-label text-md-end">Дата и время</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="date"
-                                        type="datetime-local"
-                                        class="form-control
-                                        @error('date') is-invalid @enderror"
-                                        name="date"
-                                        value="{{ old('date') ?? $activity->date->toDateTimeLocalString() }}"
-                                        autocomplete="date"
-                                    >
-
-                                    @error('date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            @role('admin')
-                            <div class="row mb-3">
-                                <label for="user_id" class="col-md-4 col-form-label text-md-end">Куратор</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="user_id"
-                                        class="form-control"
-                                        aria-label="Куратор"
-                                        required
-                                        name="user_id"
-                                    >
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}">
-                                                {{ $user->short_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('user_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            @endrole
-                            @role('curator')
-                            <input type="hidden" name="user_id" value="{{ $activity->user_id }}">
-                            @endrole
-
-                            <div class="row mb-3">
                                 <label for="activity_kind_id" class="col-md-4 col-form-label text-md-end">Направление</label>
 
                                 <div class="col-md-6">
@@ -127,10 +58,7 @@
                                     >
                                         <option></option>
                                         @foreach($kinds as $kind)
-                                            <option
-                                                value="{{ $kind->id }}"
-                                                @if ($activity->activity_kind_id == $kind->id) selected @endif
-                                            >
+                                            <option value="{{ $kind->id }}">
                                                 {{ $kind->title }}
                                             </option>
                                         @endforeach
@@ -156,10 +84,7 @@
                                     >
                                         <option></option>
                                         @foreach($benchmarks as $benchmark)
-                                            <option
-                                                value="{{ $benchmark->id }}"
-                                                @if ($activity->benchmark_id == $benchmark->id) selected @endif
-                                            >
+                                            <option value="{{ $benchmark->id }}">
                                                 {{ $benchmark->title }}
                                             </option>
                                         @endforeach
@@ -185,10 +110,7 @@
                                     >
                                         <option></option>
                                         @foreach($indicators as $indicator)
-                                            <option
-                                                value="{{ $indicator->id }}"
-                                                @if ($activity->indicator_id == $indicator->id) selected @endif
-                                            >
+                                            <option value="{{ $indicator->id }}">
                                                 {{ $indicator->title }}
                                             </option>
                                         @endforeach
@@ -212,7 +134,7 @@
                                         class="form-control
                                         @error('threshold') is-invalid @enderror"
                                         name="threshold"
-                                        value="{{ old('threshold') ?? $activity->threshold }}"
+                                        value="{{ old('threshold') }}"
                                         autocomplete="threshold"
                                     >
 
@@ -234,7 +156,7 @@
                                         class="form-control
                                         @error('assessment_frequency') is-invalid @enderror"
                                         name="assessment_frequency"
-                                        value="{{ old('assessment_frequency') ?? $activity->assessment_frequency }}"
+                                        value="{{ old('assessment_frequency') }}"
                                         autocomplete="assessment_frequency"
                                     >
 
@@ -256,7 +178,7 @@
                                         class="form-control
                                         @error('possible_score') is-invalid @enderror"
                                         name="possible_score"
-                                        value="{{ old('possible_score') ?? $activity->possible_score }}"
+                                        value="{{ old('possible_score') }}"
                                         autocomplete="possible_score"
                                     >
 
@@ -278,7 +200,7 @@
                                         class="form-control
                                         @error('curator_score') is-invalid @enderror"
                                         name="curator_score"
-                                        value="{{ old('curator_score') ?? $activity->curator_score }}"
+                                        value="{{ old('curator_score') }}"
                                         autocomplete="curator_score"
                                     >
 
@@ -293,7 +215,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Сохранить
+                                        Создать
                                     </button>
                                 </div>
                             </div>

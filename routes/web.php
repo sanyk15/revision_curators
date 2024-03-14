@@ -15,14 +15,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('activity_kinds', \App\Http\Controllers\ActivityKindController::class)->except(['index', 'show']);
         Route::resource('indicators', \App\Http\Controllers\IndicatorController::class)->except(['index', 'show']);
         Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class)->except(['index', 'show']);
-        Route::resource('additional_events', \App\Http\Controllers\AdditionalEventController::class)->except(['index', 'show']);
         Route::resource('users', \App\Http\Controllers\UserController::class);
         Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
+        Route::resource('activity_types', \App\Http\Controllers\ActivityTypeController::class)->except(['index', 'show']);
     });
 
     Route::middleware('role:curator|admin')->group(function () {
         Route::resource('groups', \App\Http\Controllers\GroupController::class)->except(['index', 'show']);
-        Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show', 'create']);
+        Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
         Route::get('activities/{activity}/add-groups', [\App\Http\Controllers\ActivityController::class, 'addGroupsForm'])->name('activities.add-groups-form');
         Route::post('activities/{activity}/add-groups', [\App\Http\Controllers\ActivityController::class, 'addGroups'])->name('activities.add-groups');
         Route::prefix('reports')->name('reports.')->group(function () {
@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('activity_kinds', \App\Http\Controllers\ActivityKindController::class)->only(['index', 'show']);
     Route::resource('indicators', \App\Http\Controllers\IndicatorController::class)->only(['index', 'show']);
     Route::resource('benchmarks', \App\Http\Controllers\BenchmarkController::class)->only(['index', 'show']);
-    Route::resource('additional_events', \App\Http\Controllers\AdditionalEventController::class)->only(['index', 'show']);
     Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'show']);
+    Route::resource('activity_types', \App\Http\Controllers\ActivityTypeController::class)->only(['index', 'show']);
 
     Route::get('profile', [\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
     Route::post('profile', [\App\Http\Controllers\UserController::class, 'updateProfile'])->name('update-profile');

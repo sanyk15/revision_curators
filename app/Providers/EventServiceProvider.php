@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Activity;
+use App\Models\ActivityType;
 use App\Observers\ActivityObserver;
+use App\Observers\ActivityTypeObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -29,5 +31,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Activity::observe(ActivityObserver::class);
+        ActivityType::observe(ActivityTypeObserver::class);
     }
 }

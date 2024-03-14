@@ -1,4 +1,4 @@
-@extends('mails.layout')
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -8,7 +8,13 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>Создано новое мероприятие</h3>
+                                <h3>Тип мероприятия</h3>
+                            </div>
+                            <div class="col-auto">
+                                <a class="btn btn-primary" href="{{ route('activity_types.index', $activityType->id) }}">
+                                    <i class="bi-arrow-left"></i>
+                                    Назад
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -18,22 +24,7 @@
                             <h5 class="col-md-4 text-md-end">Название:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->title }}</h5>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <h5 class="col-md-4 text-md-end">Дата и время:</h5>
-
-                            <div class="col-md-6">
-                                <h5>{{ $activity->date->format('d.m.Y H:i') }}</h5>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row mb-3">
-                            <h5 class="col-md-4 text-md-end">Куратор:</h5>
-
-                            <div class="col-md-6">
-                                <h5>{{ $activity->user->full_name }}</h5>
+                                <h5>{{ $activityType->title }}</h5>
                             </div>
                         </div>
                         <hr>
@@ -41,7 +32,7 @@
                             <h5 class="col-md-4 text-md-end">Направление:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->activityKind ? $activity->activityKind->title : '' }}</h5>
+                                <h5>{{ $activityType->activityKind ? $activity->activityKind->title : '' }}</h5>
                             </div>
                         </div>
 
@@ -49,7 +40,7 @@
                             <h5 class="col-md-4 text-md-end">Критерий:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->benchmark ? $activity->benchmark->title : '' }}</h5>
+                                <h5>{{ $activityType->benchmark ? $activity->benchmark->title : '' }}</h5>
                             </div>
                         </div>
 
@@ -57,7 +48,7 @@
                             <h5 class="col-md-4 text-md-end">Показатель:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->indicator ? $activity->indicator->title : '' }}</h5>
+                                <h5>{{ $activityType->indicator ? $activity->indicator->title : '' }}</h5>
                             </div>
                         </div>
 
@@ -65,7 +56,7 @@
                             <h5 class="col-md-4 text-md-end">Пороговое значение:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->threshold }}</h5>
+                                <h5>{{ $activityType->threshold }}</h5>
                             </div>
                         </div>
 
@@ -73,7 +64,7 @@
                             <h5 class="col-md-4 text-md-end">Периодичность оценивания:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->assessment_frequency }}</h5>
+                                <h5>{{ $activityType->assessment_frequency }}</h5>
                             </div>
                         </div>
 
@@ -81,7 +72,7 @@
                             <h5 class="col-md-4 text-md-end">Оценка в баллах:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->possible_score }}</h5>
+                                <h5>{{ $activityType->possible_score }}</h5>
                             </div>
                         </div>
 
@@ -89,15 +80,7 @@
                             <h5 class="col-md-4 text-md-end">Оценка куратора:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activity->curator_score }}</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="text-md-center">
-                                <a href="{{ $activity->calendar_link }}" class="btn btn-primary">
-                                    Добавить в календарь
-                                </a>
+                                <h5>{{ $activityType->curator_score }}</h5>
                             </div>
                         </div>
                     </div>

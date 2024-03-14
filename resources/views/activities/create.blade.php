@@ -104,166 +104,24 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="activity_kind_id" class="col-md-4 col-form-label text-md-end">Направление</label>
+                                <label for="type_id" class="col-md-4 col-form-label text-md-end">Тип</label>
 
                                 <div class="col-md-6">
                                     <select
-                                        id="activity_kind_id"
+                                        id="type_id"
                                         class="form-control"
-                                        aria-label="Направление"
+                                        aria-label="Тип"
                                         required
-                                        name="activity_kind_id"
+                                        name="type_id"
                                     >
-                                        @foreach($kinds as $kind)
-                                            <option value="{{ $kind->id }}">
-                                                {{ $kind->title }}
+                                        @foreach($types as $type)
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->title }}
                                             </option>
                                         @endforeach
                                     </select>
 
-                                    @error('activity_kind_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="benchmark_id" class="col-md-4 col-form-label text-md-end">Критерий</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="benchmark_id"
-                                        class="form-control"
-                                        aria-label="Критерий"
-                                        name="benchmark_id"
-                                    >
-                                        <option></option>
-                                        @foreach($benchmarks as $benchmark)
-                                            <option value="{{ $benchmark->id }}">
-                                                {{ $benchmark->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('benchmark_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="indicator_id" class="col-md-4 col-form-label text-md-end">Показатель</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="indicator_id"
-                                        class="form-control"
-                                        aria-label="Показатель"
-                                        name="indicator_id"
-                                    >
-                                        <option></option>
-                                        @foreach($indicators as $indicator)
-                                            <option value="{{ $indicator->id }}">
-                                                {{ $indicator->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('indicator_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="threshold" class="col-md-4 col-form-label text-md-end">Пороговое значение</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="threshold"
-                                        type="text"
-                                        class="form-control
-                                        @error('threshold') is-invalid @enderror"
-                                        name="threshold"
-                                        value="{{ old('threshold') }}"
-                                        autocomplete="threshold"
-                                    >
-
-                                    @error('threshold')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="assessment_frequency" class="col-md-4 col-form-label text-md-end">Периодичность оценивания</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="assessment_frequency"
-                                        type="text"
-                                        class="form-control
-                                        @error('assessment_frequency') is-invalid @enderror"
-                                        name="assessment_frequency"
-                                        value="{{ old('assessment_frequency') }}"
-                                        autocomplete="assessment_frequency"
-                                    >
-
-                                    @error('assessment_frequency')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="possible_score" class="col-md-4 col-form-label text-md-end">Оценка в баллах</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="possible_score"
-                                        type="text"
-                                        class="form-control
-                                        @error('possible_score') is-invalid @enderror"
-                                        name="possible_score"
-                                        value="{{ old('possible_score') }}"
-                                        autocomplete="possible_score"
-                                        required
-                                    >
-
-                                    @error('possible_score')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="curator_score" class="col-md-4 col-form-label text-md-end">Оценка куратора</label>
-
-                                <div class="col-md-6">
-                                    <input
-                                        id="curator_score"
-                                        type="number"
-                                        class="form-control
-                                        @error('curator_score') is-invalid @enderror"
-                                        name="curator_score"
-                                        value="{{ old('curator_score') }}"
-                                        autocomplete="curator_score"
-                                        required
-                                    >
-
-                                    @error('curator_score')
+                                    @error('type_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
