@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#group_ids').select2();
-        });
-    </script>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -19,7 +11,7 @@
                                 <h3>Запись групп с мероприятия</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activities.show', $activity->id) }}">
+                                <a class="btn btn-primary" href="{{ url()->previous() }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -34,33 +26,31 @@
                             @csrf
 
                             <div class="row mb-3">
-                                <label for="group_ids" class="col-md-4 col-form-label text-md-end">Группы</label>
-
-                                <div class="col-md-6">
-                                    <select
-                                        id="group_ids"
-                                        class="form-control"
-                                        aria-label="Группы"
-                                        name="group_ids[]"
-                                        multiple
-                                    >
-                                        @foreach($groups as $group)
-                                            <option
-                                                value="{{ $group->id }}"
-                                                @if (in_array($group->id, $activityGroups)) selected @endif
-                                            >
-                                                {{ $group->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('group_ids')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                                <label class="col-md-4 col-form-label text-md-end">
+                                    Группа
+                                </label>
+                                <label class="col-md-6 col-form-label">
+                                    Количество студентов, которое придет на мероприятие
+                                </label>
                             </div>
+
+                            @foreach($groups as $group)
+                                <div class="row mb-3">
+                                    <label for="group_ids[{{ $group->id }}]" class="col-md-4 col-form-label text-md-end">
+                                        {{ $group->title }}
+                                    </label>
+
+                                    <div class="col-md-6">
+                                        <input
+                                            id="group_ids[{{ $group->id }}]"
+                                            type="number"
+                                            class="form-control"
+                                            name="group_ids[{{ $group->id }}]"
+                                            value="{{ data_get($activityGroups, $group->id) ? $activityGroups[$group->id]->pivot->students_count : 0 }}"
+                                        >
+                                    </div>
+                                </div>
+                            @endforeach
 
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">

@@ -39,11 +39,7 @@ class ActivityController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $attributes = $request->all();
-        $attributes['user_id'] = Auth::id();
-
-        $activity = (new Activity)->create($attributes);
-        $activity->groups()->sync($attributes['group_ids'] ?? []);
+        (new Activity)->create($request->all());
 
         return redirect()->route('activities.index');
     }
@@ -60,6 +56,7 @@ class ActivityController extends Controller
         $groups = Group::all()->sortBy('title');
         $indicators = Indicator::all()->sortBy('title');
         $activity->group_ids = $activity->groups->pluck('id')->toArray();
+        $users = User::query()->curators()->get()->sortBy('short_name')->values();
 
         return view('activities.edit', compact(
             'activity',
@@ -67,6 +64,7 @@ class ActivityController extends Controller
             'benchmarks',
             'groups',
             'indicators',
+            'users',
         ));
     }
 
@@ -95,26 +93,41 @@ class ActivityController extends Controller
         return Activity::getActivitiesForMonthByPeriod($dateStart, $dateEnd)->toJson();
     }
 
-    public function editNotMine(Activity $activity)
+    public function addGroupsForm(Activity $activity)
     {
         $groups = auth()->user()->groups->sortBy('title')->values();
-        $activityGroups = $activity->groups->pluck('id')->toArray();
+        $activityGroups = $activity->groups->whereIn('id', $groups->pluck('id')->toArray())->mapWithKeys(function ($group) {
+            return [$group->id => $group];
+        })->all();
 
-        return view('activities.edit-not-mine', compact(
+        return view('activities.add-groups', compact(
             'activity',
             'groups',
             'activityGroups',
         ));
     }
 
-    public function updateNotMine(Request $request, Activity $activity): RedirectResponse
+    public function addGroups(Request $request, Activity $activity): RedirectResponse
     {
-        $activityGroupIds = $activity->groups->pluck('id')->toArray();
+        $activity->groups()->detach(auth()->user()->groups()->pluck('id')->toArray());
 
-        $activityGroupIds = array_diff($activityGroupIds, auth()->user()->groups->pluck('id')->toArray());
-        $activityGroupIds = array_merge($activityGroupIds, $request->get('group_ids') ?? []);
+        if (!$request->get('group_ids')) {
+            return redirect()->route('activities.show', $activity->id);
+        }
 
-        $activity->groups()->sync($activityGroupIds);
+        $attachGroups = $activity->groups()->get()->mapWithKeys(function ($group) {
+            return [$group->id => ['students_count' => $group->pivot->students_count]];
+        });
+
+        foreach ($request->get('group_ids') as $id => $studentsCount) {
+            if ($studentsCount == 0) {
+                continue;
+            }
+
+            $attachGroups[$id] = ['students_count' => $studentsCount];
+        }
+
+        $activity->groups()->sync($attachGroups->toArray());
 
         return redirect()->route('activities.show', $activity->id);
     }

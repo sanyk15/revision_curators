@@ -19,7 +19,7 @@
                                 <h3>Создание мероприятия</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activities.index') }}">
+                                <a class="btn btn-primary" href="{{ url()->previous() }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>
@@ -96,6 +96,28 @@
                                     </select>
 
                                     @error('user_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="students_quota" class="col-md-4 col-form-label text-md-end">Количество квот</label>
+
+                                <div class="col-md-6">
+                                    <input
+                                        id="students_quota"
+                                        type="number"
+                                        class="form-control
+                                        @error('students_quota') is-invalid @enderror"
+                                        name="students_quota"
+                                        value="{{ old('students_quota') }}"
+                                        autocomplete="students_quota"
+                                    >
+
+                                    @error('students_quota')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

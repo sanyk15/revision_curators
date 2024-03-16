@@ -11,7 +11,7 @@
                                 <h3>Тип мероприятия</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('activity_types.index', $activityType->id) }}">
+                                <a class="btn btn-primary" href="{{ url()->previous() }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>

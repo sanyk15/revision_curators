@@ -11,7 +11,7 @@
                                 <h3>Редактирование пользователя</h3>
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-primary" href="{{ route('users.index') }}">
+                                <a class="btn btn-primary" href="{{ url()->previous() }}">
                                     <i class="bi-arrow-left"></i>
                                     Назад
                                 </a>

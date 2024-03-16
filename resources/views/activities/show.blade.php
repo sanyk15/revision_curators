@@ -20,13 +20,12 @@
                                         <i class="bi-pencil-fill"></i>
                                     </a>
                                 @else
-                                    <a class="btn btn-outline-primary" href="{{ route('activities.edit-not-mine', $activity->id) }}">
+                                    <a class="btn btn-outline-primary" href="{{ route('activities.add-groups-form', $activity->id) }}">
                                         <i class="bi-people"></i><i class="bi-plus"></i>
                                     </a>
                                 @endif
                                 @endrole
-                                <a class="btn btn-primary" href="{{ route('activities.index') }}">
-                                    <i class="bi-arrow-left"></i>
+                                <a class="btn btn-primary bi-arrow-left" href="{{ url()->previous() }}">
                                     Назад
                                 </a>
                             </div>
@@ -56,15 +55,13 @@
                                 <h5>{{ $activity->user->full_name }}</h5>
                             </div>
                         </div>
-                        @if (!$activity->groups->empty())
-                            <div class="row mb-3">
-                                <h5 class="col-md-4 text-md-end">Группы:</h5>
+                        <div class="row mb-3">
+                            <h5 class="col-md-4 text-md-end">Количество студентов:</h5>
 
-                                <div class="col-md-6">
-                                    <h5>{{ implode(', ', $activity->groups->pluck('title')->toArray()) }}</h5>
-                                </div>
+                            <div class="col-md-6">
+                                <h5>{{ $activity->actual_students_count . '/' . $activity->students_quota }}</h5>
                             </div>
-                        @endif
+                        </div>
                         <hr>
                         @if ($activity->activityKind)
                             <div class="row mb-3">

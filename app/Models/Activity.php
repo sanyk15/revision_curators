@@ -48,6 +48,7 @@ class Activity extends Model
         'date' => 'required',
         'title' => 'required',
         'user_id' => 'required',
+        'students_quota' => 'required',
     ];
 
     protected $fillable = [
@@ -62,6 +63,7 @@ class Activity extends Model
         'curator_score',
         'title',
         'type_id',
+        'students_quota',
     ];
 
     protected $dates = [
@@ -85,7 +87,12 @@ class Activity extends Model
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'activities_groups', 'activity_id', 'group_id');
+        return $this->belongsToMany(
+            Group::class,
+            'activities_groups',
+            'activity_id',
+            'group_id'
+        )->withPivot(['students_count']);
     }
 
     public function indicator(): HasOne
@@ -130,12 +137,19 @@ class Activity extends Model
 
     public function fullByType()
     {
-        $this->activity_kind_id = $this->type->activity_kind_id;
-        $this->benchmark_id = $this->type->benchmark_id;
-        $this->indicator_id = $this->type->indicator_id;
-        $this->threshold = $this->type->threshold;
-        $this->assessment_frequency = $this->type->assessment_frequency;
-        $this->possible_score = $this->type->possible_score;
-        $this->curator_score = $this->type->curator_score;
+        $type = $this->type;
+
+        $this->activity_kind_id = $type->activity_kind_id;
+        $this->benchmark_id = $type->benchmark_id;
+        $this->indicator_id = $type->indicator_id;
+        $this->threshold = $type->threshold;
+        $this->assessment_frequency = $type->assessment_frequency;
+        $this->possible_score = $type->possible_score;
+        $this->curator_score = $type->curator_score;
+    }
+
+    public function getActualStudentsCountAttribute()
+    {
+        return $this->groups->sum('pivot.students_count');
     }
 }
