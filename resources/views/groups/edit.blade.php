@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('scripts')
+    <script src="https://unpkg.com/imask"></script>
+
+    <script>
+        const title = document.getElementById('title');
+        const maskOptions = {
+            mask: '[aaaaaa]-00'
+        };
+        const mask = IMask(title, maskOptions);
+    </script>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

@@ -43,7 +43,7 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        $users = User::all()->sortBy('short_name')->toArray();
+        $users = User::all()->sortBy('short_name')->values();
 
         return view('groups.edit',compact('group', 'users'));
     }
@@ -62,6 +62,13 @@ class GroupController extends Controller
     public function destroy(Group $group): RedirectResponse
     {
         $group->delete();
+
+        return redirect()->back();
+    }
+
+    public function nextCourse(Group $group): RedirectResponse
+    {
+        $group->translateToNextCourse();
 
         return redirect()->back();
     }

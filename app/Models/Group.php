@@ -12,16 +12,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Группа.
  *
  * @property integer $id
- * @property string $title
+ * @property string  $title
  * @property integer $students_count
- * @property string $headman_email
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon $deleted_at
+ * @property string  $headman_email
+ * @property Carbon  $created_at
+ * @property Carbon  $updated_at
+ * @property Carbon  $deleted_at
  */
 class Group extends Model
 {
     use SoftDeletes, Filterable;
+
+    const MAX_COURSES = 5;
 
     protected $fillable = [
         'title',
@@ -39,5 +41,22 @@ class Group extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return void
+     */
+    public function translateToNextCourse(): void
+    {
+        [$name, $number] = explode('-', $this->title);
+        $course = intdiv($number, 10);
+
+        if ($course < self::MAX_COURSES) {
+            $course++;
+        }
+
+        $number[0] = $course;
+
+        $this->update(['title' => $name . '-' . $number]);
     }
 }

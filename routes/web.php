@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
             Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
             Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');
         });
+        Route::get('groups/{group}/next-course', [\App\Http\Controllers\GroupController::class, 'nextCourse'])->name('groups.next-course');
     });
 
     Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);

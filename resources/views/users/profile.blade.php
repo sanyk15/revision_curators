@@ -255,6 +255,12 @@
                                                     >
                                                         <i class="bi-pencil"></i>
                                                     </a>
+                                                    <a
+                                                        class="btn btn-sm btn-info"
+                                                        href="{{ route('groups.next-course', $group->id) }}"
+                                                    >
+                                                        <i class="bi-caret-up-fill"></i>
+                                                    </a>
                                                     @endrole
                                                     @role('admin')
                                                     <form
@@ -273,6 +279,12 @@
                                                         <button type="submit" class="btn btn-danger btn-sm">
                                                             <i class="bi-trash"></i>
                                                         </button>
+                                                        <a
+                                                            class="btn btn-sm btn-info"
+                                                            href="{{ route('groups.next-course', $group->id) }}"
+                                                        >
+                                                            <i class="bi-caret-up-fill"></i>
+                                                        </a>
                                                     </form>
                                                     @endrole
                                                 </td>
