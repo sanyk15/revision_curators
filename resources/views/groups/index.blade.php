@@ -16,6 +16,13 @@
                             </span>
                             <div class="float-right">
                                 <a
+                                    class="btn btn-outline-primary btn-sm float-right"
+                                    href="{{ route('groups.trans-to-next-course.form') }}"
+                                >
+                                    <i class="bi-caret-up-fill"></i>
+                                    Перевод на следующий курс
+                                </a>
+                                <a
                                     href="{{ route('groups.create') }}"
                                     class="btn btn-primary btn-sm float-right"
                                     data-placement="left"
@@ -96,12 +103,6 @@
                                                 <button type="submit" class="btn btn-danger btn-sm">
                                                     <i class="bi-trash"></i>
                                                 </button>
-                                                <a
-                                                    class="btn btn-sm btn-info"
-                                                    href="{{ route('groups.next-course', $group->id) }}"
-                                                >
-                                                    <i class="bi-caret-up-fill"></i>
-                                                </a>
                                                 @endrole
                                                 @role('curator')
                                                 @if ($group->user_id == auth()->id())
@@ -110,12 +111,6 @@
                                                         href="{{ route('groups.edit', $group->id) }}"
                                                     >
                                                         <i class="bi-pencil"></i>
-                                                    </a>
-                                                    <a
-                                                        class="btn btn-sm btn-info"
-                                                        href="{{ route('groups.next-course', $group->id) }}"
-                                                    >
-                                                        <i class="bi-caret-up-fill"></i>
                                                     </a>
                                                 @endif
                                                 @endrole

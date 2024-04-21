@@ -32,7 +32,7 @@
                             <h5 class="col-md-4 text-md-end">Направление:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activityType->activityKind ? $activity->activityKind->title : '' }}</h5>
+                                <h5>{{ $activityType->activityKind ? $activityType->activityKind->title : '' }}</h5>
                             </div>
                         </div>
 
@@ -40,7 +40,7 @@
                             <h5 class="col-md-4 text-md-end">Критерий:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activityType->benchmark ? $activity->benchmark->title : '' }}</h5>
+                                <h5>{{ $activityType->benchmark ? $activityType->benchmark->title : '' }}</h5>
                             </div>
                         </div>
 
@@ -48,7 +48,7 @@
                             <h5 class="col-md-4 text-md-end">Показатель:</h5>
 
                             <div class="col-md-6">
-                                <h5>{{ $activityType->indicator ? $activity->indicator->title : '' }}</h5>
+                                <h5>{{ $activityType->indicator ? $activityType->indicator->title : '' }}</h5>
                             </div>
                         </div>
 

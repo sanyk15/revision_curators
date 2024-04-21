@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', \App\Http\Controllers\UserController::class);
         Route::resource('activities', \App\Http\Controllers\ActivityController::class)->except(['index', 'show']);
         Route::resource('activity_types', \App\Http\Controllers\ActivityTypeController::class)->except(['index', 'show']);
+        Route::get('groups/trans-to-next-course', [\App\Http\Controllers\GroupController::class, 'transToNextCourseForm'])->name('groups.trans-to-next-course.form');
+        Route::post('groups/trans-to-next-course', [\App\Http\Controllers\GroupController::class, 'transToNextCourse'])->name('groups.trans-to-next-course');
     });
 
     Route::middleware('role:curator|admin')->group(function () {
@@ -29,7 +31,6 @@ Route::middleware('auth')->group(function () {
             Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
             Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');
         });
-        Route::get('groups/{group}/next-course', [\App\Http\Controllers\GroupController::class, 'nextCourse'])->name('groups.next-course');
     });
 
     Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);

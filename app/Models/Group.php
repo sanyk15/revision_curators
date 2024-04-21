@@ -43,10 +43,14 @@ class Group extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    /**
-     * @return void
-     */
-    public function translateToNextCourse(): void
+    public function getCurrentCourseAttribute(): int
+    {
+        [$_, $number] = explode('-', $this->title);
+
+        return intdiv($number, 10);
+    }
+
+    public function getNextCourseTitle(): string
     {
         [$name, $number] = explode('-', $this->title);
         $course = intdiv($number, 10);
@@ -57,6 +61,6 @@ class Group extends Model
 
         $number[0] = $course;
 
-        $this->update(['title' => $name . '-' . $number]);
+        return $name . '-' . $number;
     }
 }

@@ -45,7 +45,7 @@ class GroupController extends Controller
     {
         $users = User::all()->sortBy('short_name')->values();
 
-        return view('groups.edit',compact('group', 'users'));
+        return view('groups.edit', compact('group', 'users'));
     }
 
     public function update(Request $request, Group $group): RedirectResponse
@@ -66,10 +66,22 @@ class GroupController extends Controller
         return redirect()->back();
     }
 
-    public function nextCourse(Group $group): RedirectResponse
+    public function transToNextCourseForm()
     {
-        $group->translateToNextCourse();
+        $groups = Group::query()->where('title', 'not like', '%-4%')->orderBy('title')->get();
+        $users  = User::all()->sortBy('short_name')->values();
 
-        return redirect()->back();
+        return view('groups.trans-to-next-course', compact('groups', 'users'));
+    }
+
+    public function transToNextCourse(Request $request): RedirectResponse
+    {
+        Group::query()->where('title', 'like', '%-4%')->delete();
+
+        foreach ($request->all()['group'] ?? [] as $groupId => $attributes) {
+            Group::query()->where('id', '=', $groupId)->update($attributes);
+        }
+
+        return redirect()->route('groups.index');
     }
 }
