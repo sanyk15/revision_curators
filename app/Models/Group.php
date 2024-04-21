@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -43,11 +44,14 @@ class Group extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function getCurrentCourseAttribute(): int
+    public function activities(): BelongsToMany
     {
-        [$_, $number] = explode('-', $this->title);
-
-        return intdiv($number, 10);
+        return $this->belongsToMany(
+            Activity::class,
+            'activities_groups',
+            'group_id',
+            'activity_id'
+        )->withPivot(['students_count']);
     }
 
     public function getNextCourseTitle(): string

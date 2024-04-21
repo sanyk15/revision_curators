@@ -43,6 +43,10 @@ class Activity extends Model
 {
     use SoftDeletes, Filterable;
 
+    const MY_COLOR = '#9ACD32';
+    const MAIN_COLOR = '#6495ED';
+    const SENT_STUDENTS_COLOR = '#DAA520';
+
     static $rules = [
         'group_ids' => 'array',
         'date' => 'required',
@@ -107,16 +111,28 @@ class Activity extends Model
 
     public static function getActivitiesForMonthByPeriod(Carbon $dateStart, Carbon $dateEnd): Collection
     {
+        $groupIds = auth()->user()->groups->pluck('id')->toArray();
+
         return Activity::query()
             ->whereBetween('date', [$dateStart, $dateEnd])
+            ->with('groups')
             ->get()
-            ->map(function (Activity $activity) {
+            ->map(function (Activity $activity) use ($groupIds) {
+                $color = self::MAIN_COLOR;
+
+                if (auth()->user()->id == $activity->user_id) {
+                    $color = self::MY_COLOR;
+                } else if (array_intersect($activity->groups->pluck('id')->toArray(), $groupIds)) {
+                    $color = self::SENT_STUDENTS_COLOR;
+                }
+
                 return [
                     'id' => $activity->id,
                     'allDay' => true,
                     'start' => $activity->date,
                     'title' => $activity->title,
                     'url' => route('activities.show', $activity->id),
+                    'color' => $color,
                 ];
             });
     }
@@ -135,7 +151,7 @@ class Activity extends Model
         )->google();
     }
 
-    public function fullByType()
+    public function fillByType()
     {
         $type = $this->type;
 

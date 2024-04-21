@@ -8,7 +8,20 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <div id="calendar" style="max-height: 80vh"></div>
+                        <div id="calendar" style="max-height: 76vh"></div>
+                    </div>
+                    <div class="card-footer">
+                        <h5>
+                            <span class="badge badge-lg" style="background-color: {{ \App\Models\Activity::MAIN_COLOR }}">
+                                Мероприятия других кураторов
+                            </span>
+                            <span class="badge" style="background-color: {{ \App\Models\Activity::MY_COLOR }}">
+                                Ваши мероприятия
+                            </span>
+                            <span class="badge" style="background-color: {{ \App\Models\Activity::SENT_STUDENTS_COLOR }}">
+                                Мероприятия на которые вы направили своих студентов
+                            </span>
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -41,7 +54,7 @@
 @endsection
 
 @section('styles')
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet"/>
 @endsection
