@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
             Route::get('main', [\App\Http\Controllers\ReportController::class, 'reportsView'])->name('main');
             Route::post('download_report', [\App\Http\Controllers\ReportController::class, 'downloadReport'])->name('report.download');
         });
+
+        Route::prefix('groups/{group}/')->group(function () {
+            Route::resource('students', \App\Http\Controllers\StudentController::class);
+        });
     });
 
     Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);

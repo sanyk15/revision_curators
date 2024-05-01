@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Группы
+    Студенты
 @endsection
 
 @section('content')
@@ -12,18 +12,11 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                Группы
+                                Студенты группы <h4>{{ $group->title }}</h4>
                             </span>
                             <div class="float-right">
                                 <a
-                                    class="btn btn-outline-primary btn-sm float-right"
-                                    href="{{ route('groups.trans-to-next-course.form') }}"
-                                >
-                                    <i class="bi-caret-up-fill"></i>
-                                    Перевод на следующий курс
-                                </a>
-                                <a
-                                    href="{{ route('groups.create') }}"
+                                    href="{{ route('students.create', $group->id) }}"
                                     class="btn btn-primary btn-sm float-right"
                                     data-placement="left"
                                 >
@@ -35,7 +28,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <form action="{{ route('groups.index') }}" class="p-2">
+                            <form action="{{ route('students.index', $group->id) }}" class="p-2">
                                 <div class="row">
                                     <div class="col">
                                         <input
@@ -51,7 +44,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             <i class="bi bi-search"></i>
                                         </button>
-                                        <a href="{{ route('groups.index') }}" class="btn btn-outline-danger">
+                                        <a href="{{ route('students.index', $group->id) }}" class="btn btn-outline-danger">
                                             <i class="bi bi-x"></i>
                                         </a>
                                     </div>
@@ -65,42 +58,41 @@
                                 <thead class="thead">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Название</th>
-                                    <th>Куратор группы</th>
-                                    <th>Кол-во студентов</th>
-                                    <th>Email старосты</th>
+                                    <th>ФИО</th>
+                                    <th>Дата рождения</th>
+                                    <th>Телефон</th>
+                                    <th>Email</th>
+                                    <th>Гражданство</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($groups as $group)
+                                @foreach ($students as $student)
                                     <tr>
-                                        <td>{{ $group->id }}</td>
-                                        <td>{{ $group->title }}</td>
                                         <td>
-                                            @if($group->user_id)
-                                                {{ $group->user->short_name }}
+                                            {{ $student->id }}
+                                            @if ($student->is_head)
+                                                <span class="badge rounded-pill text-bg-success">Староста</span>
                                             @endif
                                         </td>
-                                        <td>{{ $group->students_count }}</td>
-                                        <td><a href="mailto:{{ $group->headman_email }}">{{ $group->headman_email }}</a>
+                                        <td>{{ $student->full_name }}</td>
+                                        <td>{{ $student->birth_date->format('d.m.Yг.') }}</td>
+                                        <td>
+                                            <a href="tel:{{ $student->phone }}">{{ $student->phone }}</a>
                                         </td>
                                         <td>
+                                            <a href="mailto:{{ $student->email }}">{{ $student->email }}</a>
+                                        </td>
+                                        <td>{{ $student->citizenship }}</td>
+                                        <td>
                                             <form
-                                                action="{{ route('groups.destroy', $group->id) }}"
+                                                action="{{ route('students.destroy', [$group->id, $student->id]) }}"
                                                 method="POST"
                                             >
-                                                <a
-                                                    class="btn btn-sm btn-info"
-                                                    href="{{ route('students.index', $group->id) }}"
-                                                >
-                                                    <i class="bi-people"></i>
-                                                </a>
-
                                                 @role('admin')
                                                 <a
                                                     class="btn btn-sm btn-success"
-                                                    href="{{ route('groups.edit', $group->id) }}"
+                                                    href="{{ route('students.edit', [$group->id, $student->id]) }}"
                                                 >
                                                     <i class="bi-pencil"></i>
                                                 </a>
@@ -115,7 +107,7 @@
                                                 @if ($group->user_id == auth()->id())
                                                     <a
                                                         class="btn btn-sm btn-success"
-                                                        href="{{ route('groups.edit', $group->id) }}"
+                                                        href="{{ route('students.edit', [$group->id, $student->id]) }}"
                                                     >
                                                         <i class="bi-pencil"></i>
                                                     </a>
@@ -131,7 +123,7 @@
                     </div>
                     @include(
                         'vendor.pagination.default',
-                        $groups->links()->getData()
+                        $students->links()->getData()
                     )
                 </div>
             </div>
