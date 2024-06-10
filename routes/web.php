@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('activity_types', \App\Http\Controllers\ActivityTypeController::class)->except(['index', 'show']);
         Route::get('groups/trans-to-next-course', [\App\Http\Controllers\GroupController::class, 'transToNextCourseForm'])->name('groups.trans-to-next-course.form');
         Route::post('groups/trans-to-next-course', [\App\Http\Controllers\GroupController::class, 'transToNextCourse'])->name('groups.trans-to-next-course');
+        Route::get('groups/import', [\App\Http\Controllers\GroupController::class, 'importForm'])->name('groups.import.form');
+        Route::post('groups/import', [\App\Http\Controllers\GroupController::class, 'import'])->name('groups.import');
     });
 
     Route::middleware('role:curator|admin')->group(function () {

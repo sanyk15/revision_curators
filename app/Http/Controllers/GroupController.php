@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportGroupsWithStudentsJob;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -83,5 +87,27 @@ class GroupController extends Controller
         }
 
         return redirect()->route('groups.index');
+    }
+
+    public function importForm(): Factory|View|Application
+    {
+        return view('groups.import');
+    }
+
+    public function import(Request $request): Factory|View|Application
+    {
+        $result = [];
+
+        if (($handle = fopen($request->file('students')->getRealPath(), "r")) !== false) {
+            while (($data = fgetcsv($handle, 1000, ";")) !== false) {
+                $result[] = $data;
+            }
+
+            fclose($handle);
+        }
+
+        dispatch(new ImportGroupsWithStudentsJob($result));
+
+        return view('groups.import', compact('result'));
     }
 }

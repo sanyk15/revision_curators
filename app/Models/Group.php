@@ -29,8 +29,6 @@ class Group extends Model
 
     protected $fillable = [
         'title',
-        'students_count',
-        'headman_email',
         'user_id',
     ];
 
@@ -72,5 +70,17 @@ class Group extends Model
         $number[0] = $course;
 
         return $name . '-' . $number;
+    }
+
+    public function getHeadManEmailAttribute(): ?string
+    {
+        $headMan = $this->students()->where('is_head', '=', 1)->first();
+
+        return $headMan?->email;
+    }
+
+    public function getStudentsCountAttribute(): int
+    {
+        return $this->students()->count();
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Reports;
 
 use App\Models\Activity;
-use App\Models\AdditionalEvent;
+use App\Models\ActivityType;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
@@ -15,22 +15,24 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class CuratorActivitiesReport implements FromView, WithStyles, ShouldAutoSize, WithColumnWidths
 {
-    private $activities;
-    private $date;
-    private $rows;
+    private Collection $activities;
+    private Carbon     $date;
+    private ?int       $rows;
 
     public function __construct(Collection $activities, Carbon $date)
     {
         $this->activities = $activities;
-        $this->date = $date;
+        $this->date       = $date;
     }
 
     public function view(): View
     {
         $curatorsWithGroups = collect();
+
         $i = 0;
         $j = 0;
         $k = 0;
+
         $activities = $this->activities
             ->map(function (Activity $activity) use (&$curatorsWithGroups) {
                 $activity->curator_name = $activity->user->surname_and_initials;
@@ -48,9 +50,11 @@ class CuratorActivitiesReport implements FromView, WithStyles, ShouldAutoSize, W
                 return $activity;
             })
             ->groupBy(['activityKind.title', 'benchmark.title', 'indicator.title']);
+
         $curatorsWithGroups = $curatorsWithGroups->unique(function ($item) {
             return data_get($item, 'curator') . data_get($item, 'group');
         })->sortBy(['curator', 'group']);
+
         $activities = $activities->map(function ($activitiesForKind, $kindName) use (&$i, &$j, &$k, $curatorsWithGroups) {
             $i++;
 
@@ -97,7 +101,10 @@ class CuratorActivitiesReport implements FromView, WithStyles, ShouldAutoSize, W
             'activities'           => $activities,
             'date'                 => $this->date,
             'curators_with_groups' => $curatorsWithGroups,
-            'additional_events'    => AdditionalEvent::query()
+            'additional_events'    => Activity::query()
+                ->whereHas('type', function ($query) {
+                    $query->where('code', '=', ActivityType::ADDITIONAL_EVENT_TYPE_CODE);
+                })
                 ->whereBetween('date', [$this->date->copy()->startOfMonth(), $this->date->copy()->endOfMonth()])
                 ->orderBy('title')
                 ->get(),

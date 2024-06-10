@@ -3,7 +3,7 @@
 namespace App\Reports;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -12,7 +12,7 @@ class ServiceCuratorsReport
 {
     private $activities;
     private $date;
-    private $textStyle = ['name' => 'TimesNewRoman', 'size' => 14];
+    private $textStyle     = ['name' => 'TimesNewRoman', 'size' => 14];
     private $headTextStyle = ['name' => 'TimesNewRoman', 'size' => 14, 'bold' => true];
 
     private const MONTH_NAMES = [
@@ -32,14 +32,15 @@ class ServiceCuratorsReport
 
     public function __construct(Collection $activities, Carbon $date)
     {
-        $this->activities = $activities->groupBy('curator.fullName')->map(function (Collection $activities, $curatorName) {
-            $groupsCount = $activities->pluck('group_id')->unique()->filter()->count();
+        $activities->load('groups');
+        $this->activities = $activities->groupBy('user.fullName')->map(function (Collection $activities, $curatorName) {
+            $groups = $activities->pluck('groups')->flatten()->unique();
 
             return [
                 'curator'     => $curatorName,
-                'groupsCount' => $groupsCount,
-                'groupNames'  => $activities->pluck('group.title')->unique()->filter()->implode(', '),
-                'sum'         => 2000 * $groupsCount,
+                'groupsCount' => $groups->count(),
+                'groupNames'  => $groups->pluck('title')->filter()->implode(', '),
+                'sum'         => 2000 * $groups->count(),
             ];
         })->values();
 

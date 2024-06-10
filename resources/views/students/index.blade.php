@@ -17,7 +17,7 @@
                             <div class="float-right">
                                 <a
                                     href="{{ route('students.create', $group->id) }}"
-                                    class="btn btn-primary btn-sm float-right"
+                                    class="btn btn-primary btn-sm float-right col-auto"
                                     data-placement="left"
                                 >
                                     <i class="bi bi-plus"></i>
@@ -53,8 +53,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="max-height: 72vh; overflow-y: scroll">
                             <table class="table table-striped table-hover">
+                                <caption>{{ count($students) }} человек</caption>
                                 <thead class="thead">
                                 <tr>
                                     <th>ID</th>
@@ -121,10 +122,6 @@
                             </table>
                         </div>
                     </div>
-                    @include(
-                        'vendor.pagination.default',
-                        $students->links()->getData()
-                    )
                 </div>
             </div>
         </div>

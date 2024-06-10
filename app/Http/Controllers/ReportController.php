@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\ActivityType;
 use App\Services\ReportService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -19,6 +20,9 @@ class ReportController extends Controller
         $date = now()->setMonth($request->get('month'))->setYear($request->get('year'));
         $report = $request->get('report');
         $activities = Activity::query()
+            ->whereHas('type', function ($query) {
+                $query->where('code', '!=', ActivityType::ADDITIONAL_EVENT_TYPE_CODE);
+            })
             ->whereBetween('date', [$date->copy()->startOfMonth(), $date->copy()->endOfMonth()])
             ->get();
 

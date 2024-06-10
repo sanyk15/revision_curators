@@ -14,7 +14,7 @@ class StudentController extends Controller
     public function index(Request $request, Group $group)
     {
         $filter   = array_merge($request->all(), ['group' => $group->id]);
-        $students = Student::filter($filter)->orderBy('first_name')->orderBy('last_name')->paginate(8);
+        $students = Student::filter($filter)->orderBy('last_name')->orderBy('first_name')->get();
 
         return view('students.index', compact('students', 'group'));
     }
